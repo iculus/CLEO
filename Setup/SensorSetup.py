@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import subprocess
+import subprocess, sys
+sys.path.insert(0,'/home/admin/CLEO/Setup/')
+
+from setup import *
 
 start = chr(255)
 end = chr(254)
@@ -16,6 +19,22 @@ def checkLSUSB():
 	out, err = p.communicate()
 	return out
 
+def getPort(device):
+	result = startProcess().split('\n')
+	for res in result:
+		port = "NA"
+		err = False
+		try:
+			dev,name = res.split(' - ')
+			if "tty" in res:
+				if device in name:
+					port = dev
+					return port, err
+	
+		except:
+			err = True
+	return port, err
+
 if __name__ == "__main__":
 
 	FEATHERLOC = "X"
@@ -26,43 +45,31 @@ if __name__ == "__main__":
 
 	tests = [FEATHERLOC,LEONARDOLOC,HUBLOC,LEAPLOC,WIFILOC]
 
-	feather = "Adafruit_Feather_M4"
-	leonardo = "Arduino_Leonardo"
-	hub = "Realtek Semiconductor Corp. RTL"
-	leap = "Leap Motion"
-	wifi = "Ralink"
-
 	testNames = [feather,leonardo,hub,leap,wifi]
 
 	print "\nDevices\n"
-	result = startProcess().split('\n')
-	for res in result:
-		try:
-			dev,name = res.split(' - ')
-			if "tty" in res:
-				print dev,name 
-				if feather in name:
-					tests[0] = dev
-				if leonardo in name:
-					tests[1] = dev
-			else:
-				#print '\t',dev,name
-				pass 	
-		except:
-			pass
+	#result = startProcess().split('\n')
+
+	FeatherPort,FPErr = getPort(feather)
+	tests[0] = FeatherPort
+	print feather, "port -", FeatherPort, "error -" , FPErr
+
+	LeonardoPort,LPErr = getPort(leonardo)
+	tests[1] = LeonardoPort
+	print leonardo, "port -", LeonardoPort, "error -", LPErr
 
 	lsusb = checkLSUSB().split('\n')
 
 	for thisUSB in lsusb:
 
 		if leap in thisUSB:		
-			print "LEAP - ", thisUSB
+			print "LEAP -", thisUSB
 			tests[2] = thisUSB
 		if hub in thisUSB:
-			print "Hub  - ", thisUSB
+			print "HUB  -", thisUSB
 			tests[3] = thisUSB
 		if wifi in thisUSB:
-			print "WIFI - ", thisUSB
+			print "WIFI -", thisUSB
 			tests[4] = thisUSB
 
 	print '\nResults\n'
