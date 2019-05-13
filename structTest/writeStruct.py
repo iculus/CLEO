@@ -2,7 +2,7 @@ import serial, time, random
 import struct
 from numpy import interp, zeros, chararray, reshape, append, array, roll
 
-ser = serial.Serial(port = '/dev/ttyACM0', baudrate = 115200,timeout = 0.01)
+ser = serial.Serial(port = '/dev/ttyACM0', baudrate = 115200,timeout = 0.0001)
 
 try:
 	print 'its open'
@@ -87,4 +87,4 @@ while 1:
 	
 	print 'writing', int(time.time())
 	print readSerialPort()
-	time.sleep(1)
+	#time.sleep(1)
