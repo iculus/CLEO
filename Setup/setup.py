@@ -5,3 +5,4 @@ leap = "Leap Motion"
 wifi = "Ralink"
 
 LEDComputer = feather
+SENSORComputer = leonardo

@@ -1,13 +1,29 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-import subprocess, sys
+
+import subprocess, sys, serial
 sys.path.insert(0,'/home/admin/CLEO/Setup/')
 
 from setup import *
+import serial, struct, sys
+from numpy import interp, zeros, chararray, reshape, append, array, roll
+from time import sleep
 
 start = chr(255)
 end = chr(254)
+
+def readSerialPort(ser):
+	for line in ser:
+		return line
+
+def readData(ser):
+    buffer = ""
+    while True:
+        oneByte = ser.read(1)
+        if oneByte == b"\n":    #method should returns bytes
+            return buffer
+        else:
+            buffer += oneByte.decode("ascii")
 
 def startProcess():
 	p = subprocess.Popen(['./findDevicePath.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="/home/admin/CLEO/Utilities")
@@ -34,6 +50,48 @@ def getPort(device):
 		except:
 			err = True
 	return port, err
+
+def sendIt(sim, numFings, ser, bright):
+	toSend = sim.T
+	toSend = toSend.reshape(242)
+
+	#add the numfings to the end of the message
+	toSend = append(toSend,numFings) 
+
+	#add the brightness to the end of the message
+	toSend = append(toSend,bright)
+	#print(toSend)
+
+	#build struct and send messa
+	message = start+struct.pack("<244B", *toSend)+end
+	ser.write(message)
+
+	#read incoming message
+	inp = ser.readline()
+    	vals = str(inp.decode("utf-8")).split(',')
+	print(vals)
+    	#sleep(1./120)
+
+def setupSerial(TYPE):
+	FeatherPort,FPErr = getPort(TYPE)
+	
+	if FPErr: 
+		print "Port Error", TYPE, FPErr
+
+	serFeather = serial.Serial(port = str(FeatherPort.strip(' ')), baudrate = 115200,timeout = 0)
+
+	try:
+		if(serFeather.isOpen() != False):
+			print TYPE, 'Serial Port Open'
+		if(serFeather.isOpen() == False):
+			ser.open()
+			print TYPE, 'is not open'
+	except IOError: # if port is already opened, close it and open it again and print message
+		print 'error'
+		serFeather.close()
+		serFeather.open()
+	return serFeather
+	
 
 if __name__ == "__main__":
 
