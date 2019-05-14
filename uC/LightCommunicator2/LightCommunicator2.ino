@@ -67,7 +67,7 @@ void loop() {
     sz = random(1,4+1);
     
     if (checkTime-startTime>=1000){
-      DrawCircle(row,col,10, sz, YELLOW_6); // row,col,wait,size(1=small,4=large), color
+      DrawCircle(row,col,15, sz, YELLOW_6); // row,col,wait,size(1=small,4=large), color
       startTime = checkTime;
     }
   }
@@ -134,9 +134,9 @@ void DrawCircle(uint16_t row, uint16_t col, uint8_t wait, uint16_t condition, ui
         strip.setPixelColor(i,strip.Color(0,0,0));
       }
     }
-    if (condition >= 4) {addressShape(xx4,yy4,row,col,ARRAY_LEN(xx4),strip.Color(0,1*(50-abs(50-b)),1*(50-abs(50-b))));}
-    if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color(0,0,2*(50-abs(50-b))));}
-    if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color(0,1*(50-abs(50-b)),0));}
+    if (condition >= 4) {addressShape(xx4,yy4,row,col,ARRAY_LEN(xx4),strip.Color( 0,255,255 ));}
+    if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color( 0,0,255 ));}
+    if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color( 0,255,0 ));}
     if (condition >= 1) {addressShape(xx1,yy1,row,col,ARRAY_LEN(xx1),colr);}
     strip.setBrightness( 255/50 * (50-abs(50-b)) ); //sets the triangle
     strip.show();
