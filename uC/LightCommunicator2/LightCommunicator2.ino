@@ -17,6 +17,10 @@ void setup() {
 
 }
 
+bool wasTrue = false;
+bool condition = false;
+int timer = millis();
+int timeFilter = 1000;
 
 void loop() {
   
@@ -28,10 +32,33 @@ void loop() {
   if (Serial.available() > 0)  {serAvail = true;}
   if (Serial.available() == 0) {serAvail = false;}
 
+  //if serial available switched from true to false but it has only been a short time DONT update condition
+  //if serial available switched from true to false some time ago DO update condition 
+  //fi serial available switched from false to tru DO update condition immediately 
+
+  if (serAvail == true) {
+    wasTrue = true;
+    condition = true;
+    timer = millis();
+  }
+
+  if (serAvail == false and wasTrue == true) {
+    //just switched 
+    //if time has elapse set condition to false
+    if (millis() - timer > timeFilter){
+      condition = false;
+      wasTrue = false; 
+    }
+  }
+
+  if (serAvail == false and wasTrue == false){
+    condition = false;
+  }
+
   digitalWrite(LED_BUILTIN, serAvail);
 
   // send data only when you receive data:
-  if (serAvail) {
+  if (condition) {
     incomingByte = Serial.read();
     // accumilate enough bytes
     // look for start bytes
@@ -60,7 +87,7 @@ void loop() {
       //assert(false);
     }    
   }
-  else if(not serAvail) {
+  else if(not condition) {
     checkTime = millis();
     row = random(0,rows);
     col = random(0,leds);
@@ -91,7 +118,8 @@ void handleMessage(struct Message1 msg1){
       msg1.bit220,  msg1.bit221,  msg1.bit222,  msg1.bit223,  msg1.bit224,  msg1.bit225,  msg1.bit226,  msg1.bit227,  msg1.bit228,  msg1.bit229,  msg1.bit230,  msg1.bit231,  msg1.bit232,  msg1.bit233,  msg1.bit234,  msg1.bit235,  msg1.bit236,  msg1.bit237,  msg1.bit238,  msg1.bit239,  msg1.bit240,  msg1.bit241};
 
   DrawLines(seq, seqLen, brights, numFing); //onOff vals, len, color, brightness
-      
+
+  //uncomment below to send the list to the serial terminal
   //for (int indx = 0; indx < (sizeof(seq)/sizeof(seq[0])); indx ++){
   //  Serial.print(seq[indx]);
   //}
@@ -152,4 +180,3 @@ void addressShape(int* xArray, int* yArray, uint8_t thisrow, uint8_t thiscol, ui
     }
   }
 }
-

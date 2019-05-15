@@ -40,7 +40,7 @@ if __name__ == "__main__":
 	
 	#mode setup
 	delay = 0.0
-	modeDelay = 12000
+	modeDelay = 1200
 	maxMode = 18
 	oneMode = False
 	thisMode = 18
@@ -67,15 +67,18 @@ if __name__ == "__main__":
 
 	#setupProcess("leapd", "sudo leapd &")
 
-	#pusubsetup
-	port = "5556"
-	socketA = setupListenSocket(port,"10001")
-
 	#setup Timers
 	timeStart = time.time()
 
+	#pusubsetup
+	fingerPort = "5556"
+	fingerSocket = setupListenSocket(fingerPort,"10001")
+	sensePort = "5557"
+	senseSocket = setupListenSocket(sensePort,"10001")
+
 	#start threads
-	lThreadA = startThreads(socketA, listenThread())
+	fingerThread = startThreads(fingerSocket, listenThread())
+	senseThread = startThreads(senseSocket, listenThread())
 
 	#lThread = listenThread()
 	#lThread.start()
@@ -108,6 +111,7 @@ if __name__ == "__main__":
 	while True:
 
 		#print ranger
+		print str(senseThread)
 
 		#map ranger to steps
 		rangerMin = 0
@@ -157,7 +161,7 @@ if __name__ == "__main__":
 		fingerPos = 0,0
 		fingerNum = 0
 
-		fingInfo = str(lThreadA).replace(" ", "")
+		fingInfo = str(fingerThread).replace(" ", "")
 		if fingInfo != "NONE": 
 			fingerTopic, fingerPos, fingerNum = fingInfo.split(":")
 			fingerPos = fingerPos.strip('[').strip(']').split('),(')
@@ -441,4 +445,5 @@ if __name__ == "__main__":
 			sendIt(newSim, fingerNum, ser, 255)
 
 	#end threads
-	lThreadA.join()
+	fingerThread.join()
+	senseThread.join()
