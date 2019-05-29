@@ -1,4 +1,4 @@
-def getFings(fingerThread):
+def getFings(fingerThread, fingers):
 	'''get fingers info'''			
 	fingerUpdate = False
 	fingerTopic = 0
@@ -15,7 +15,6 @@ def getFings(fingerThread):
 		for index,fing in enumerate(fingerPos):
 			x,y,z = fing.strip('(').strip(')').split(',')
 			thisFing = (int(x), int(y), int(z))
-			#print index,thisFing
 			fingerPos[index] = thisFing
 		fingerUpdate = True
 		negOneCount = 0
@@ -27,4 +26,4 @@ def getFings(fingerThread):
 			fingers = False #all values are false
 
 	fingerNum = int(fingerNum)
-	return fingerNum, fingerPos
+	return fingerNum, fingerPos, fingerUpdate, fingers

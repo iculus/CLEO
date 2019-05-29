@@ -1,8 +1,8 @@
 def map(x, in_min, in_max, out_min, out_max):
-			return int((x-in_min) * (out_max-out_min) / (in_max-in_min) + out_min)
+	return int((x-in_min) * (out_max-out_min) / (in_max-in_min) + out_min)
 
 		
-def sensors(senseThread):
+def sensors(senseThread, timeoutCounter):
 
 	'''get the sensors data'''
 	
@@ -10,8 +10,6 @@ def sensors(senseThread):
 	reading = False
 	distanceMin = 10
 	distanceMax = 1200
-	timeoutCounter = 0
-	person = False
 	personNearby = False
 	d = 0
 
@@ -38,10 +36,10 @@ def sensors(senseThread):
 		personNearby = True
 	elif d <= 1 or d >= 7 and reading == True:
 		personNearby = False
-	elif reading == False:
+	if reading == False:
 		timeoutCounter = timeoutCounter + 1
 		if timeoutCounter > 20:
 			timeoutCounter = 0
 			personNearby = False
 	#if reading == True:
-	return reading, personNearby, ranger, d
+	return reading, personNearby, ranger, d, timeoutCounter

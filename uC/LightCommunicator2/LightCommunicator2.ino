@@ -20,7 +20,8 @@ void setup() {
 bool wasTrue = false;
 bool condition = false;
 int timer = millis();
-int timeFilter = 1000;
+// this number will make akward pauses, keep it as low as possible
+int timeFilter = 30;
 
 void loop() {
   
@@ -74,6 +75,7 @@ void loop() {
       num_payload_chars++;
     } else if (num_payload_chars == MSG_LEN) {
       if (incomingByte == 254) {
+        Serial.println("okay");
         //process message
         memcpy(&msg1, payload, sizeof(msg1));
         
@@ -81,9 +83,14 @@ void loop() {
         
         num_payload_chars = MSG_LEN + 1;
       } else {
+        Serial.print("dropper");
+        Serial.print(MSG_LEN);
+        Serial.println(incomingByte);
         num_payload_chars = MSG_LEN + 1;  // invalid packet, drop data
+        
       }
     } else {
+      Serial.println("strange spot");
       //assert(false);
     }    
   }

@@ -7,10 +7,42 @@ sys.path.insert(0,'/home/admin/CLEO/Setup/')
 from setup import *
 import serial, struct, sys
 from numpy import interp, zeros, chararray, reshape, append, array, roll
-from time import sleep
+import time
 
 start = chr(255)
 end = chr(254)
+
+#error checkers
+errorDrop = 0
+okay = 0
+totalDrops = 0
+maxDropsList = []
+dSTime = time.time()
+timeDiff = 0
+tList = []
+
+def checkDrops(timeFromFeather, errorDrop,okay,maxDropsList,totalDrops, dSTime, timeDiff, tList, maxLen):
+
+	'''trim lists'''
+	if len(maxDropsList) > maxLen: maxDropsList = maxDropsList[-maxLen:]
+	if len(tList) > maxLen : tList = tList[-maxLen:]
+
+	utf8string = timeFromFeather[0].encode("utf-8")	
+	if len(utf8string) >2: 
+		if "dropper" in utf8string:
+			errorDrop = errorDrop + 1
+			okay = 0		
+		if "okay" in utf8string:
+			if okay == 0: 
+				maxDropsList.append(errorDrop)
+				timeDiff = float( '%.4f'%(time.time()-dSTime) )
+				tList.append(timeDiff)
+			errorDrop = 0
+			okay = okay + 1	
+		if okay == 1: 
+			totalDrops = totalDrops + 1
+			dSTime = time.time()
+	return okay, totalDrops, maxDropsList, errorDrop, dSTime, timeDiff, tList
 
 def readSerialPort(ser):
 	for line in ser:
@@ -60,7 +92,6 @@ def sendIt(sim, numFings, ser, bright):
 
 	#add the brightness to the end of the message
 	toSend = append(toSend,bright)
-	#print(toSend)
 
 	#build struct and send messa
 	message = start+struct.pack("<244B", *toSend)+end
@@ -69,16 +100,17 @@ def sendIt(sim, numFings, ser, bright):
 	#read incoming message
 	inp = ser.readline()
     	vals = str(inp.decode("utf-8")).split(',')
-	print(vals)
+	return vals
+	#print(vals)
     	#sleep(1./120)
 
-def setupSerial(TYPE):
+def setupSerial(TYPE, br=115200, to = 0):
 	FeatherPort,FPErr = getPort(TYPE)
 	
 	if FPErr: 
 		print "Port Error", TYPE, FPErr
 
-	serFeather = serial.Serial(port = str(FeatherPort.strip(' ')), baudrate = 115200,timeout = 0)
+	serFeather = serial.Serial(port = str(FeatherPort.strip(' ')), baudrate = br, timeout = to)
 
 	try:
 		if(serFeather.isOpen() != False):

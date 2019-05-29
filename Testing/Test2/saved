@@ -1,0 +1,540 @@
+timed print 0
+ BAUD : 4800 timeout : 0 time 600
+  unfiltered
+   AVGTime : 74.739100 AVGDrop : 8 NUM : 8
+   time : 1.604800,0.012900,0.026200,233.910000,52.516300,107.021400,0.243000,202.578200,
+   drops : 1,1,7,4,9,5,31,9,
+  filtered
+   AVGTime : 857.125650 AVGDrop : 31 NUM : 2
+   time : 1318.916700,395.334600,
+   drops : 31,31,
+
+
+timed print 1
+ BAUD : 4800 timeout : 0 time 600
+  unfiltered
+   AVGTime : 78.993000 AVGDrop : 12 NUM : 5
+   time : 1.577600,0.127100,0.016600,131.172200,262.071500,
+   drops : 1,32,3,2,22,
+  filtered
+   AVGTime : 34.900450 AVGDrop : 32 NUM : 4
+   time : 3.282300,1.704700,1.721300,132.893500,
+   drops : 32,32,32,32,
+
+
+timed print 2
+ BAUD : 4800 timeout : 0 time 600
+  unfiltered
+   AVGTime : 78.974680 AVGDrop : 18 NUM : 5
+   time : 1.550300,0.044200,62.275400,68.867000,262.136500,
+   drops : 1,11,11,37,31,
+  filtered
+   AVGTime : 198.208333 AVGDrop : 35 NUM : 3
+   time : 199.751600,132.736900,262.136500,
+   drops : 37,37,31,
+
+
+timed print 3
+ BAUD : 4800 timeout : 0 time 600
+  unfiltered
+   AVGTime : 51.547967 AVGDrop : 5 NUM : 3
+   time : 1.570600,0.026600,153.046700,
+   drops : 1,7,9,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 4
+ BAUD : 4800 timeout : 0 time 600
+  unfiltered
+   AVGTime : 86.715800 AVGDrop : 7 NUM : 4
+   time : 1.564800,252.262900,39.813900,53.221600,
+   drops : 1,6,12,9,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 5
+ BAUD : 9600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 68.592300 AVGDrop : 9 NUM : 4
+   time : 1.571500,0.083100,171.827900,100.886700,
+   drops : 1,23,8,6,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 6
+ BAUD : 9600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 61.720386 AVGDrop : 10 NUM : 7
+   time : 1.585700,54.440000,0.011700,338.051000,0.090800,37.767500,0.096000,
+   drops : 0,1,3,6,19,21,21,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 7
+ BAUD : 9600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 143.871133 AVGDrop : 2 NUM : 3
+   time : 1.563300,392.204300,37.845800,
+   drops : 1,2,4,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 8
+ BAUD : 9600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 74.949029 AVGDrop : 10 NUM : 7
+   time : 1.561900,0.008000,31.879100,106.816400,13.370600,83.620400,287.386800,
+   drops : 1,1,18,10,29,6,10,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 9
+ BAUD : 9600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 48.437820 AVGDrop : 7 NUM : 5
+   time : 1.570000,31.752000,196.834800,11.960700,0.071600,
+   drops : 1,3,15,1,16,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 10
+ BAUD : 19200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 133.144175 AVGDrop : 16 NUM : 4
+   time : 1.558700,0.034500,393.113800,137.869700,
+   drops : 1,9,7,48,
+  filtered
+   AVGTime : 930.435600 AVGDrop : 48 NUM : 1
+   time : 930.435600,
+   drops : 48,
+
+
+timed print 11
+ BAUD : 19200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 111.231825 AVGDrop : 11 NUM : 4
+   time : 1.593200,0.063300,151.338300,291.932500,
+   drops : 1,17,12,14,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 12
+ BAUD : 19200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 73.253114 AVGDrop : 11 NUM : 7
+   time : 1.547000,0.018200,170.464200,138.617500,119.984100,0.109400,82.031400,
+   drops : 1,4,9,17,2,25,24,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 13
+ BAUD : 19200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 123.471425 AVGDrop : 4 NUM : 4
+   time : 1.577000,0.013000,390.925000,101.370700,
+   drops : 1,3,8,7,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 14
+ BAUD : 19200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 102.443860 AVGDrop : 3 NUM : 5
+   time : 1.561500,150.656700,4.453700,1.043400,354.504000,
+   drops : 0,5,3,9,2,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 15
+ BAUD : 38400 timeout : 0 time 600
+  unfiltered
+   AVGTime : 84.521743 AVGDrop : 17 NUM : 7
+   time : 1.557900,0.016300,34.143700,356.381700,19.346000,60.216600,119.990000,
+   drops : 1,2,9,22,3,62,22,
+  filtered
+   AVGTime : 892.859800 AVGDrop : 62 NUM : 2
+   time : 1314.057400,471.662200,
+   drops : 62,62,
+
+
+timed print 16
+ BAUD : 38400 timeout : 0 time 600
+  unfiltered
+   AVGTime : 85.317967 AVGDrop : 6 NUM : 6
+   time : 1.565700,0.007000,8.203800,142.098600,79.409600,280.623100,
+   drops : 1,1,9,9,15,3,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 17
+ BAUD : 38400 timeout : 0 time 600
+  unfiltered
+   AVGTime : 255.799000 AVGDrop : 4 NUM : 2
+   time : 1.573500,510.024500,
+   drops : 1,8,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 18
+ BAUD : 38400 timeout : 0 time 600
+  unfiltered
+   AVGTime : 69.054767 AVGDrop : 14 NUM : 6
+   time : 1.575300,0.124900,7.783400,142.018100,240.109900,22.717000,
+   drops : 1,36,27,5,3,16,
+  filtered
+   AVGTime : 111.514520 AVGDrop : 36 NUM : 5
+   time : 3.275500,1.700200,9.483600,151.501700,391.611600,
+   drops : 36,36,36,36,36,
+
+
+timed print 19
+ BAUD : 38400 timeout : 0 time 600
+  unfiltered
+   AVGTime : 67.827700 AVGDrop : 12 NUM : 4
+   time : 1.577900,10.451900,139.243400,120.037600,
+   drops : 0,10,5,34,
+  filtered
+   AVGTime : 436.191700 AVGDrop : 34 NUM : 1
+   time : 436.191700,
+   drops : 34,
+
+
+timed print 20
+ BAUD : 57600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 54.383120 AVGDrop : 8 NUM : 5
+   time : 1.568700,0.078900,29.438100,240.746000,0.083900,
+   drops : 0,20,3,2,18,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 21
+ BAUD : 57600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 2.954867 AVGDrop : 13 NUM : 3
+   time : 1.557700,0.133300,7.173600,
+   drops : 0,36,5,
+  filtered
+   AVGTime : 2.469850 AVGDrop : 36 NUM : 2
+   time : 3.248700,1.691000,
+   drops : 36,36,
+
+
+timed print 22
+ BAUD : 57600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 0.800100 AVGDrop : 3 NUM : 2
+   time : 1.580700,0.019500,
+   drops : 1,5,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 23
+ BAUD : 57600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 54.125600 AVGDrop : 7 NUM : 5
+   time : 1.546900,0.054200,148.821400,120.166900,0.038600,
+   drops : 1,15,4,10,8,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 24
+ BAUD : 57600 timeout : 0 time 600
+  unfiltered
+   AVGTime : 0.799350 AVGDrop : 3 NUM : 2
+   time : 1.576000,0.022700,
+   drops : 1,5,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 25
+ BAUD : 115200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 84.221057 AVGDrop : 7 NUM : 7
+   time : 1.574400,28.474800,119.991000,79.462500,40.976500,259.036600,60.031600,
+   drops : 0,1,7,17,17,4,7,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 26
+ BAUD : 115200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 72.873829 AVGDrop : 9 NUM : 7
+   time : 1.572900,0.006400,126.272400,41.439700,240.019500,59.959900,40.846000,
+   drops : 1,1,12,7,13,23,10,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 27
+ BAUD : 115200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 85.551680 AVGDrop : 11 NUM : 5
+   time : 1.570100,28.067800,0.049800,120.020200,278.050500,
+   drops : 0,14,12,12,18,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 28
+ BAUD : 115200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 65.678540 AVGDrop : 13 NUM : 5
+   time : 1.561700,0.023400,57.170400,210.740700,58.896500,
+   drops : 1,5,13,13,34,
+  filtered
+   AVGTime : 659.791200 AVGDrop : 34 NUM : 1
+   time : 659.791200,
+   drops : 34,
+
+
+timed print 29
+ BAUD : 115200 timeout : 0 time 600
+  unfiltered
+   AVGTime : 127.345400 AVGDrop : 6 NUM : 4
+   time : 1.564500,0.028500,267.935900,239.852700,
+   drops : 1,6,10,9,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 30
+ BAUD : 250000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 61.431320 AVGDrop : 15 NUM : 5
+   time : 1.563100,0.012700,27.501900,120.171700,157.907200,
+   drops : 1,3,30,16,27,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 31
+ BAUD : 250000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 48.645850 AVGDrop : 11 NUM : 8
+   time : 1.573000,0.025600,148.703800,118.606900,0.042200,0.159000,0.030100,120.026200,
+   drops : 1,6,9,6,7,2,6,56,
+  filtered
+   AVGTime : 1618.752700 AVGDrop : 56 NUM : 1
+   time : 1618.752700,
+   drops : 56,
+
+
+timed print 32
+ BAUD : 250000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 0.528967 AVGDrop : 1 NUM : 3
+   time : 1.566900,0.011700,0.008300,
+   drops : 1,1,2,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 33
+ BAUD : 250000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 46.806400 AVGDrop : 9 NUM : 10
+   time : 1.569900,0.012500,26.950400,18.971200,30.072500,190.993600,0.013000,0.125800,120.067500,79.287600,
+   drops : 1,3,16,21,13,3,2,6,6,21,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 34
+ BAUD : 250000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 117.519120 AVGDrop : 7 NUM : 5
+   time : 1.571600,0.026000,531.717000,51.238000,3.043000,
+   drops : 1,7,16,13,1,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 35
+ BAUD : 500000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 61.219820 AVGDrop : 9 NUM : 5
+   time : 1.591600,0.085300,124.391900,142.174600,37.855700,
+   drops : 1,25,9,7,6,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 36
+ BAUD : 500000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 67.001225 AVGDrop : 1 NUM : 4
+   time : 1.573200,0.008300,0.006000,266.417400,
+   drops : 1,1,1,3,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 37
+ BAUD : 500000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 72.591186 AVGDrop : 12 NUM : 7
+   time : 1.579000,0.067800,146.133600,120.234800,73.684200,46.384500,120.054400,
+   drops : 1,18,6,4,12,33,11,
+  filtered
+   AVGTime : 768.444300 AVGDrop : 33 NUM : 2
+   time : 1148.804700,388.083900,
+   drops : 33,33,
+
+
+timed print 38
+ BAUD : 500000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 72.557629 AVGDrop : 21 NUM : 7
+   time : 1.546900,0.104300,3.847600,41.422300,340.779400,120.018700,0.184200,
+   drops : 1,30,8,3,74,19,15,
+  filtered
+   AVGTime : 446.246067 AVGDrop : 74 NUM : 3
+   time : 443.318500,387.700500,507.719200,
+   drops : 74,74,74,
+
+
+timed print 39
+ BAUD : 500000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 117.334620 AVGDrop : 3 NUM : 5
+   time : 1.559200,145.911900,0.028600,277.744100,161.429300,
+   drops : 0,7,5,2,5,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 40
+ BAUD : 1000000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 0.538267 AVGDrop : 6 NUM : 3
+   time : 1.545600,0.010500,0.058700,
+   drops : 1,2,17,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 41
+ BAUD : 1000000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 73.550800 AVGDrop : 11 NUM : 2
+   time : 1.573000,145.528600,
+   drops : 1,21,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+
+timed print 42
+ BAUD : 1000000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 84.156620 AVGDrop : 21 NUM : 5
+   time : 1.550400,0.257800,122.893300,22.014600,274.067000,
+   drops : 1,74,6,1,26,
+  filtered
+   AVGTime : 69.146100 AVGDrop : 74 NUM : 4
+   time : 3.358600,1.808200,124.701500,146.716100,
+   drops : 74,74,74,74,
+
+
+timed print 43
+ BAUD : 1000000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 53.313000 AVGDrop : 21 NUM : 5
+   time : 1.579600,0.040100,24.854300,120.136400,119.954600,
+   drops : 1,10,3,86,7,
+  filtered
+   AVGTime : 161.447050 AVGDrop : 86 NUM : 2
+   time : 176.283700,146.610400,
+   drops : 86,86,
+
+
+timed print 44
+ BAUD : 1000000 timeout : 0 time 600
+  unfiltered
+   AVGTime : 70.042920 AVGDrop : 10 NUM : 5
+   time : 1.573600,0.096500,2.597500,262.279100,83.667900,
+   drops : 1,26,18,4,2,
+  filtered
+   AVGTime : 0.000000 AVGDrop : 0 NUM : 0
+   time : 
+   drops : 
+
+

@@ -13,7 +13,7 @@ print SENSORComputer
 
 print getPort(SENSORComputer)
 
-SENSESerial = setupSerial(SENSORComputer)
+SENSESerial = setupSerial(SENSORComputer, 115200, 0.01)
 
 start = time.time()
 timeout = 0.01
@@ -65,6 +65,8 @@ if __name__ == "__main__":
 		topic = 10001
 		messagedata = ":" + str(Range)
 		senseSocket.send("%d %s" % (topic, messagedata))
+
+		print time.time() - now
 	
 		'''
 		if now-start > timeout:
