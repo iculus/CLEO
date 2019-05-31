@@ -57,7 +57,9 @@ void loop() {
 
   sAverage = constrain(sAverage,sliderMin,sliderMax); 
   brightness = map(sAverage, sliderMin, sliderMax, 0, 100);
+  float brightnessF = float(brightness/100.0);
 
+  /*
   Serial.print("Button: ");
   Serial.print(bRaw);
   Serial.print('\t');
@@ -69,10 +71,10 @@ void loop() {
   Serial.print(sAverage);
   Serial.print('\t');
   Serial.print("Brightness: ");
-  Serial.print(brightness);
+  Serial.print(brightnessF);
   Serial.print('\t');
   Serial.println();
-  
+  */
 
 
   
@@ -130,7 +132,7 @@ void loop() {
         //process message
         memcpy(&msg1, payload, sizeof(msg1));
         
-        handleMessage(msg1);
+        handleMessage(msg1, brightnessF);
         
         num_payload_chars = MSG_LEN + 1;
       } else {
@@ -162,14 +164,14 @@ void loop() {
 
     if (millis() - timeStart >= wait){
       timeStart = millis();
-      DrawCircle(row,col, sz, YELLOW_6, b);
+      DrawCircle(row,col, sz, YELLOW_6, b, brightnessF);
       b = b+1;
       if (b > 100){ b = 0; }
     }
   }
 }
 
-void handleMessage(struct Message1 msg1){
+void handleMessage(struct Message1 msg1, float brightF){
 
   uint8_t numFing = msg1.bit242;
   uint8_t brights = msg1.bit243;
@@ -186,7 +188,7 @@ void handleMessage(struct Message1 msg1){
       msg1.bit198,  msg1.bit199,  msg1.bit200,  msg1.bit201,  msg1.bit202,  msg1.bit203,  msg1.bit204,  msg1.bit205,  msg1.bit206,  msg1.bit207,  msg1.bit208,  msg1.bit209,  msg1.bit210,  msg1.bit211,  msg1.bit212,  msg1.bit213,  msg1.bit214,  msg1.bit215,  msg1.bit216,  msg1.bit217,  msg1.bit218,  msg1.bit219,
       msg1.bit220,  msg1.bit221,  msg1.bit222,  msg1.bit223,  msg1.bit224,  msg1.bit225,  msg1.bit226,  msg1.bit227,  msg1.bit228,  msg1.bit229,  msg1.bit230,  msg1.bit231,  msg1.bit232,  msg1.bit233,  msg1.bit234,  msg1.bit235,  msg1.bit236,  msg1.bit237,  msg1.bit238,  msg1.bit239,  msg1.bit240,  msg1.bit241};
 
-  DrawLines(seq, seqLen, brights, numFing); //onOff vals, len, color, brightness
+  DrawLines(seq, seqLen, brights*brightF, numFing); //onOff vals, len, color, brightness
 
   //uncomment below to send the list to the serial terminal
   //for (int indx = 0; indx < (sizeof(seq)/sizeof(seq[0])); indx ++){
@@ -215,7 +217,7 @@ void SetPixelMatrix(uint16_t row, uint16_t col, uint32_t c) {
   strip.setPixelColor(i, c);
 }
 
-void DrawCircle(uint16_t row, uint16_t col, uint16_t condition, uint32_t colr, int b) {
+void DrawCircle(uint16_t row, uint16_t col, uint16_t condition, uint32_t colr, int b, float bright) {
   
   
   if (b==0){
@@ -227,7 +229,8 @@ void DrawCircle(uint16_t row, uint16_t col, uint16_t condition, uint32_t colr, i
   if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color( 0,0,255 ));}
   if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color( 0,255,0 ));}
   if (condition >= 1) {addressShape(xx1,yy1,row,col,ARRAY_LEN(xx1),colr);}
-  strip.setBrightness( 255/50 * (50-abs(50-b)) ); //sets the triangle
+  Serial.println((255/50 * (50-abs(50-b)))*bright);
+  strip.setBrightness( (255/50 * (50-abs(50-b)))*bright ); //sets the triangle
   strip.show();
   
 }
