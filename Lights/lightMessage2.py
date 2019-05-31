@@ -17,7 +17,7 @@ from procCtl import setupProcess, set_procname
 from sockets import *
 from fingers import *
 from sensors import *
-#from patterns import *
+from patterns import *
 
 if __name__ == "__main__":
 	ser = setupSerial(LEDComputer, 500000, 0)

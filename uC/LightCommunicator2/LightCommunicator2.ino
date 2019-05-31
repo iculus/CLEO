@@ -5,17 +5,21 @@
 #include "message.h"
 #include "colors.h"
 #include "display.h"
+#include "BSSetup.h"
 
 void setup() {
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  //pinMode(LED_BUILTIN, OUTPUT);
   
   Serial.begin(115200);    // opens serial port, sets data rate to 9600 bps
   
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
+  averageInit();
 }
+
+
 
 bool wasTrue = false;
 bool condition = false;
@@ -24,6 +28,53 @@ int timer = millis();
 int timeFilter = 30;
 
 void loop() {
+
+  //record sensors
+  bTotal = bTotal - bReadings[bReadIndex];
+  bRaw = analogRead(button);
+  bReadings[bReadIndex] = bRaw;
+  bTotal = bTotal + bReadings[bReadIndex];
+  bReadIndex = bReadIndex + 1;
+
+  sTotal = sTotal - sReadings[sReadIndex];
+  sRaw = analogRead(slider);
+  sReadings[sReadIndex] = sRaw;
+  sTotal = sTotal + sReadings[sReadIndex];
+  sReadIndex = sReadIndex + 1;
+
+  // if we're at the end of the array...
+  if (bReadIndex >= bNumReadings) {
+    bReadIndex = 0;}
+  if (sReadIndex >= sNumReadings) {
+    sReadIndex = 0;}
+
+  // calculate the average:
+  bAverage = bTotal / bNumReadings;
+  sAverage = sTotal / sNumReadings;
+
+  if (bAverage >= buttonThreshold) {buttonState = true;}
+  if (bAverage < buttonThreshold) {buttonState = false;}
+
+  sAverage = constrain(sAverage,sliderMin,sliderMax); 
+  brightness = map(sAverage, sliderMin, sliderMax, 0, 100);
+
+  Serial.print("Button: ");
+  Serial.print(bRaw);
+  Serial.print('\t');
+  Serial.print(buttonState);
+  Serial.print('\t');
+  Serial.print("Slider: ");
+  Serial.print(sRaw);
+  Serial.print('\t');
+  Serial.print(sAverage);
+  Serial.print('\t');
+  Serial.print("Brightness: ");
+  Serial.print(brightness);
+  Serial.print('\t');
+  Serial.println();
+  
+
+
   
   //Init struct
   struct Message1 msg1;
@@ -96,13 +147,24 @@ void loop() {
   }
   else if(not condition) {
     checkTime = millis();
-    row = random(0,rows);
-    col = random(0,leds);
-    sz = random(1,4+1);
     
     if (checkTime-startTime>=1000){
-      DrawCircle(row,col,15, sz, YELLOW_6); // row,col,wait,size(1=small,4=large), color
       startTime = checkTime;
+    }
+    
+    int wait = 15;
+
+    if (b == 0){
+      row = random(0,rows);
+      col = random(0,leds);
+      sz = random(1,4+1);
+    }
+
+    if (millis() - timeStart >= wait){
+      timeStart = millis();
+      DrawCircle(row,col, sz, YELLOW_6, b);
+      b = b+1;
+      if (b > 100){ b = 0; }
     }
   }
 }
@@ -153,30 +215,21 @@ void SetPixelMatrix(uint16_t row, uint16_t col, uint32_t c) {
   strip.setPixelColor(i, c);
 }
 
-void DrawCircle(uint16_t row, uint16_t col, uint8_t wait, uint16_t condition, uint32_t colr) {
-  static int xx4[] = {-3,-3,-2,-1,0,1,2,3,3,3,2,1,0,-1,-2,-3};
-  static int yy4[] = {0,1,2,3,3,3,2,1,0,-1,-2,-3,-3,-3,-2,-1};
-  static int xx3[] = {-1,0,1,2,2,2,1,0,-1,-2,-2,-2};
-  static int yy3[] = {2,2,2,1,0,-1,-2,-2,-2,-1,0,1};
-  static int xx2[] = {-1,-1,0,1,1,1,0,-1};
-  static int yy2[] = {0,1,1,1,0,-1,-1,-1};
-  static int xx1[] = {0};
-  static int yy1[] = {0};
+void DrawCircle(uint16_t row, uint16_t col, uint16_t condition, uint32_t colr, int b) {
   
-  for (int b = 0; b <= 100; b++) {
-    if (b==0){
-      for (int i=0; i<22*11; i++){
-        strip.setPixelColor(i,strip.Color(0,0,0));
-      }
+  
+  if (b==0){
+    for (int i=0; i<22*11; i++){
+      strip.setPixelColor(i,strip.Color(0,0,0));
     }
-    if (condition >= 4) {addressShape(xx4,yy4,row,col,ARRAY_LEN(xx4),strip.Color( 0,255,255 ));}
-    if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color( 0,0,255 ));}
-    if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color( 0,255,0 ));}
-    if (condition >= 1) {addressShape(xx1,yy1,row,col,ARRAY_LEN(xx1),colr);}
-    strip.setBrightness( 255/50 * (50-abs(50-b)) ); //sets the triangle
-    strip.show();
-    delay(wait);
   }
+  if (condition >= 4) {addressShape(xx4,yy4,row,col,ARRAY_LEN(xx4),strip.Color( 0,255,255 ));}
+  if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color( 0,0,255 ));}
+  if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color( 0,255,0 ));}
+  if (condition >= 1) {addressShape(xx1,yy1,row,col,ARRAY_LEN(xx1),colr);}
+  strip.setBrightness( 255/50 * (50-abs(50-b)) ); //sets the triangle
+  strip.show();
+  
 }
 
 

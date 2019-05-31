@@ -1,3 +1,15 @@
+int b = 0;
+int timeStart = millis();
+
+static int xx4[] = {-3,-3,-2,-1,0,1,2,3,3,3,2,1,0,-1,-2,-3};
+static int yy4[] = {0,1,2,3,3,3,2,1,0,-1,-2,-3,-3,-3,-2,-1};
+static int xx3[] = {-1,0,1,2,2,2,1,0,-1,-2,-2,-2};
+static int yy3[] = {2,2,2,1,0,-1,-2,-2,-2,-1,0,1};
+static int xx2[] = {-1,-1,0,1,1,1,0,-1};
+static int yy2[] = {0,1,1,1,0,-1,-1,-1};
+static int xx1[] = {0};
+static int yy1[] = {0};
+
 uint8_t ZIG(uint8_t in, uint8_t width){
   uint8_t j = 0; 
   uint8_t maths = in/width;
