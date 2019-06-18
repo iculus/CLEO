@@ -6,3 +6,5 @@ wifi = "Ralink"
 
 LEDComputer = feather
 SENSORComputer = leonardo
+
+thisCLEO = "cleo01" #cleo01 pixels are mirrored vertically but not horizontally

@@ -31,7 +31,7 @@ void DrawLines (int sequence[], uint8_t arLen, uint8_t brightness, uint8_t nums)
     }
   }
   if (nums != 5){ strip.setBrightness(brightness); }
-  if (nums == 5){ strip.setBrightness(255); }
+  //if (nums == 5){ strip.setBrightness(255); }
   //strip.show();
   if (nums == 5 or nums ==0){
     for (int k=0; k<strip.numPixels(); k++){
@@ -41,5 +41,6 @@ void DrawLines (int sequence[], uint8_t arLen, uint8_t brightness, uint8_t nums)
       }
     }
   }
+  
   strip.show();
 }

@@ -17,6 +17,7 @@ sys.path.insert(0, LIB_DIR)
 #sys.path.insert(0,'/home/admin/Desktop/cuttlefishLights/leapController/')
 sys.path.insert(0,'/home/admin/CLEO/Leap')
 sys.path.insert(0,'/home/admin/CLEO/Sockets')
+sys.path.insert(0,'/home/admin/CLEO/Setup')
 sys.path.insert(0,'/usr/lib/python2.7')
 
 import Leap 
@@ -29,21 +30,23 @@ from calibrate import returnCalibratedPosition
 from numpy import interp, zeros, chararray, reshape, append, array, roll
 
 from sockets import *
+from setup import *
 
 # setup area #
 #physical object dimensions
-LeapRowMin = -140
-LeapRowMax = 140
-M0RowMin = 11
-M0RowMax = 0
-LeapColMin = 50
-LeapColMax = 400
-M0ColMin = 0
-M0ColMax = 22
-LeapZMin = -50
-LeapZMax = 50
-M0ZMin = 100
-M0ZMax = 0
+if thisCLEO == "cleo01":
+	LeapRowMin = -150
+	LeapRowMax = 150
+	M0RowMin = 10
+	M0RowMax = 0
+	LeapColMin = 50
+	LeapColMax = 400
+	M0ColMin = 0
+	M0ColMax = 21
+	LeapZMin = -50
+	LeapZMax = 50
+	M0ZMin = 100
+	M0ZMax = 0
 
 pixelRow = pixelCol = 0
 count = 0
@@ -125,8 +128,10 @@ class SampleListener(Leap.Listener):
 				f.stabilized_tip_position[1],LeapColMin,LeapColMax,M0ColMin,M0ColMax)
 			thisZ = returnCalibratedPosition(
 				f.stabilized_tip_position[2],LeapZMin,LeapZMax,M0ZMin,M0ZMax)
-		
 			
+			if thisCLEO == "cleo01":
+				thisCol = M0ColMax - thisCol			
+
 			if f.hand.is_left:
 				allFings[f.type] = (thisRow,thisCol,thisZ)
 			if f.hand.is_right:

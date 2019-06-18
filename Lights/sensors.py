@@ -7,15 +7,30 @@ def sensors(senseThread, timeoutCounter):
 	'''get the sensors data'''
 	
 	ranger = 0
+	lux = 0
+	white = 0
+	als = 0
 	reading = False
 	distanceMin = 10
 	distanceMax = 1200
 	personNearby = False
 	d = 0
+	header="err"
+	message = (0,0,0,0)
 
+	#print str(senseThread)
 	#clean the thread update
 	if str(senseThread) != "NONE":
-		topic, ranger = str(senseThread).replace(" ", "").split(":")
+		try:
+			header, message = str(senseThread).replace('\r', '').replace(' ','').split(':')
+			#print(header, message)
+			try:
+				ranger, lux, white, als = message.split(',') 
+			except: pass
+		except: pass
+
+		#print ranger, lux, white, als
+		#topic, ranger = str(senseThread).replace(" ", "").split(":")
 	
 	#map ranger to steps
 	rangerMin = 0
@@ -30,6 +45,8 @@ def sensors(senseThread, timeoutCounter):
 		reading = True	
 		timeoutCounter = 0	
 		d = map(ranger, distanceMin, distanceMax, rangerMin, rangerMax)
+
+	#print d, ranger, reading
 	
 	#check for people
 	if d > 1 and d < 7 and reading == True:

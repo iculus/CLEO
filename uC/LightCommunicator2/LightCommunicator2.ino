@@ -1,3 +1,17 @@
+
+/*
+Code by Mike Soroka 06/2019
+Reads Button and Slider
+Reads struct from python
+Writes slider and struct (num fings, pattern) to LEDs
+
+Written to M4
+
+Button : filtered, working
+Slider : filtered, constrained, mapped, working
+Lights : Colors work, quirk with num fings 
+*/
+
 #include <Adafruit_DotStar.h>
 #include <SPI.h>
 
@@ -60,21 +74,26 @@ void loop() {
   float brightnessF = float(brightness/100.0);
 
   /*
-  Serial.print("Button: ");
+  Serial.print("- M4Packet : ");
+  Serial.print('\t');
+  Serial.print("- B: ");
   Serial.print(bRaw);
   Serial.print('\t');
+  Serial.print("- BState: ");
   Serial.print(buttonState);
   Serial.print('\t');
-  Serial.print("Slider: ");
+  Serial.print("- S: ");
   Serial.print(sRaw);
   Serial.print('\t');
+  Serial.print("- SAvg: ");
   Serial.print(sAverage);
   Serial.print('\t');
-  Serial.print("Brightness: ");
+  Serial.print("- SBright: ");
   Serial.print(brightnessF);
   Serial.print('\t');
   Serial.println();
   */
+  
 
 
   
@@ -128,7 +147,7 @@ void loop() {
       num_payload_chars++;
     } else if (num_payload_chars == MSG_LEN) {
       if (incomingByte == 254) {
-        Serial.println("okay");
+        //Serial.println("okay");
         //process message
         memcpy(&msg1, payload, sizeof(msg1));
         
@@ -136,14 +155,14 @@ void loop() {
         
         num_payload_chars = MSG_LEN + 1;
       } else {
-        Serial.print("dropper");
-        Serial.print(MSG_LEN);
-        Serial.println(incomingByte);
+        //Serial.print("dropper");
+        //Serial.print(MSG_LEN);
+        //Serial.println(incomingByte);
         num_payload_chars = MSG_LEN + 1;  // invalid packet, drop data
         
       }
     } else {
-      Serial.println("strange spot");
+      //Serial.println("strange spot");
       //assert(false);
     }    
   }
@@ -229,7 +248,7 @@ void DrawCircle(uint16_t row, uint16_t col, uint16_t condition, uint32_t colr, i
   if (condition >= 3) {addressShape(xx3,yy3,row,col,ARRAY_LEN(xx3),strip.Color( 0,0,255 ));}
   if (condition >= 2) {addressShape(xx2,yy2,row,col,ARRAY_LEN(xx2),strip.Color( 0,255,0 ));}
   if (condition >= 1) {addressShape(xx1,yy1,row,col,ARRAY_LEN(xx1),colr);}
-  Serial.println((255/50 * (50-abs(50-b)))*bright);
+  //Serial.println((255/50 * (50-abs(50-b)))*bright);
   strip.setBrightness( (255/50 * (50-abs(50-b)))*bright ); //sets the triangle
   strip.show();
   

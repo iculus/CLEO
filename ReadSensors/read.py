@@ -30,7 +30,7 @@ def interpSensors(inpt,Range,Lux,White,ALS):
 	if inpt and len(inpt)>2:
 		try:
 			sensor,reading = inpt.split(":")
-
+			
 			if reading > 0:
 				if "Range" in sensor: Range = reading
 				if "Lux" in sensor: Lux = reading
@@ -63,10 +63,10 @@ if __name__ == "__main__":
 
 		#send message here on ZM0
 		topic = 10001
-		messagedata = ":" + str(Range)
+		messagedata = "Leo:" + str(Range) + ',' + str(Lux) + ',' + str(White) + ',' + str(ALS)
 		senseSocket.send("%d %s" % (topic, messagedata))
 
-		print time.time() - now
+		print(topic, messagedata)
 	
 		'''
 		if now-start > timeout:

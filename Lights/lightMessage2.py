@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import os, signal, sys, inspect, thread, time, random, struct
-from numpy import interp, zeros, chararray, reshape, append, array, roll, fliplr, where, add
+from numpy import interp, zeros, chararray, reshape, append, array, roll, fliplr, where, add, flipud
 
 #sys.path.insert(0,'/home/admin/Desktop/cuttlefishLights/leapController/')
 sys.path.insert(0,'/home/admin/CLEO/Leap/')
@@ -198,7 +198,10 @@ if __name__ == "__main__":
 				fade = False
 				justSawFingers = True
 				decayTimeStart = time.time()
-				sendSim = dot(0,0,0)	  
+				sendSim = dot(0,0,0)	
+
+				print (fingerPos)
+  
 				for index, info in enumerate(fingerPos):
 					color = (index*10) + 6
 					if info[1] >= 0 and info[0] >= 0:
@@ -216,7 +219,6 @@ if __name__ == "__main__":
 					justSawFingers = False
 					fingers = False
 
-
 		#show
 		if fade:
 			step = 0.5
@@ -228,6 +230,6 @@ if __name__ == "__main__":
 		if not fade:
 			sendIt(sendSim, fingerNum, ser, 255)
 
-	#end threads
-	fingerThread.join()
-	senseThread.join()
+#end threads
+fingerThread.join()
+senseThread.join()

@@ -1,4 +1,10 @@
-/* This example shows how to get single-shot range
+/* 
+ Mike Soroka 06/2019
+
+ Reads from Lux sensor and Range sensor
+ Writes to python
+ 
+ This example shows how to get single-shot range
  measurements from the VL53L0X. The sensor can optionally be
  configured with different ranging profiles, as described in
  the VL53L0X API user manual, to get better performance for
@@ -96,16 +102,16 @@ void setup()
 
 void loop()
 {
+  //Serial.print("- LeoPacket");
+  //Serial.print('\t');
   Serial.print("Range: ");
-  Serial.print(sensor.readRangeSingleMillimeters());
-  if (sensor.timeoutOccurred()) { Serial.print(" TIMEOUT"); }
-
-  Serial.println();
-
+  Serial.println(sensor.readRangeSingleMillimeters());
+  //if (sensor.timeoutOccurred()) { Serial.print(" TIMEOUT"); }
   Serial.print("Lux: "); Serial.println(veml.readLux());
   Serial.print("White: "); Serial.println(veml.readWhite());
   Serial.print("Raw ALS: "); Serial.println(veml.readALS());
 
+  /*
   uint16_t irq = veml.interruptStatus();
   if (irq & VEML7700_INTERRUPT_LOW) {
     Serial.println("** Low threshold"); 
@@ -115,6 +121,7 @@ void loop()
   }
 
   Serial.println();
-
+  */
+  
   delay(500);
 }
