@@ -20,6 +20,7 @@ from sensors import *
 from patterns import *
 
 if __name__ == "__main__":
+	set_procname("crystalz-lights")
 	ser = setupSerial(LEDComputer, 500000, 0)
 
 	#pusubsetup

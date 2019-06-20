@@ -4,7 +4,7 @@ import os, signal
 
 thisPID = []
 
-def do_it():
+def do_it2():
 	worked = False
 	killProcess('leapd')
 
@@ -41,4 +41,4 @@ def killProcess(name):
 
 
 if __name__ == "__main__":
-	do_it()
+	do_it2()
