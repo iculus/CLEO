@@ -118,7 +118,14 @@ def isThisWifiKnown(name,allNames,connNames):
 	if name in known: foundInKnownList = True
 	if not foundInunknownList and not foundInKnownList: doesNotExist = True
 	return foundInunknownList, foundInKnownList, doesNotExist
-		
+
+def getActive():
+	actives = []
+	active = [x.Connection.GetSettings()['connection']['id'] for x in NetworkManager.NetworkManager.ActiveConnections]
+	for i in active:
+		if i != 'Hotspot':
+			actives.append(i)
+	return actives		
 
 
 import numpy as np

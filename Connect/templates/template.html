@@ -14,16 +14,15 @@
   </head>
   <body>
     <div class="container">
-      <p>My string: {{my_string}}</p>
-      <p>Value from the list: {{my_list[4]}}</p>
-      <p>Loop through the list:</p>
+      <p>Connected to: {{my_string[0]}}</p>
+      <p>Available wireless routes:</p>
       <ul>
         {% for n in my_list %}
         <li>{{n}}</li>
         {% endfor %}
       </ul>
       <form action="/signup" method="post">
-        <p>Hello</p>
+        <p>Please select wifi and enter password below:</p>
         <select name="wifi">
           {% for activity in activities %}
             <option value="{{ activity }}">{{ activity }}</option>
