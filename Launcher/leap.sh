@@ -1,3 +1,5 @@
 #!/bin/sh
 
-python /home/admin/CLEO/Leap/leapController.py
+/usr/bin/python /home/admin/CLEO/Leap/leapController.py
+
+exit 0

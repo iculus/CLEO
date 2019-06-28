@@ -1,3 +1,5 @@
 #!/bin/sh
 
-python /home/admin/CLEO/ReadSensors/read.py
+/usr/bin/python /home/admin/CLEO/ReadSensors/read.py
+
+exit 0
