@@ -10,6 +10,8 @@ Written to M4
 Button : filtered, working
 Slider : filtered, constrained, mapped, working
 Lights : Colors work, quirk with num fings 
+
+Button moved to leonardo
 */
 
 #include <Adafruit_DotStar.h>
@@ -21,34 +23,90 @@ Lights : Colors work, quirk with num fings
 #include "display.h"
 #include "BSSetup.h"
 
-void setup() {
 
-  //pinMode(LED_BUILTIN, OUTPUT);
+
+//for blink test
+const int ledPin =  13;// the number of the LED pin
+int ledState = LOW;
+unsigned long previousMillis = 0;
+const long interval = 1000;
+
+//for neopixel on pin 8 on M4
+#include <Adafruit_NeoPixel.h>
+#define LED_PIN    8
+#define LED_COUNT 1
+Adafruit_NeoPixel onePix(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+
+void setup() {
   
   Serial.begin(115200);    // opens serial port, sets data rate to 9600 bps
   
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
+  onePix.begin();
+  onePix.show(); // Initialize all pixels to 'off
+
   averageInit();
+
+  pinMode(ledPin, OUTPUT);
 }
 
 
-
+//for dropped serial handling
 bool wasTrue = false;
 bool condition = false;
 int timer = millis();
 // this number will make akward pauses, keep it as low as possible
-int timeFilter = 30;
+int timeFilter = 50; //was 30
+
+
 
 void loop() {
 
+  //timer script for testing
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= interval) {
+    // save the last time you blinked the LED
+    previousMillis = currentMillis;
+
+    // if the LED is off turn it on and vice-versa:
+    if (ledState == LOW) {
+      ledState = HIGH;
+      onePix.setPixelColor(0, 0, 100, 100);
+    } else {
+      ledState = LOW;
+      onePix.setPixelColor(0, 100, 0, 100);
+    }
+
+    Serial.println(ledState);
+
+    // set the LED with the ledState of the variable:
+    digitalWrite(ledPin, ledState);
+    onePix.show();
+  }
+  
+
   //record sensors
+  /* removed buton
   bTotal = bTotal - bReadings[bReadIndex];
   bRaw = analogRead(button);
   bReadings[bReadIndex] = bRaw;
   bTotal = bTotal + bReadings[bReadIndex];
   bReadIndex = bReadIndex + 1;
+
+  // if we're at the end of the array...
+  if (bReadIndex >= bNumReadings) {
+    bReadIndex = 0;}
+
+  // calculate the average:
+  bAverage = bTotal / bNumReadings;
+
+  if (bAverage >= buttonThreshold) {buttonState = true;}
+  if (bAverage < buttonThreshold) {buttonState = false;}
+  */
 
   sTotal = sTotal - sReadings[sReadIndex];
   sRaw = analogRead(slider);
@@ -56,24 +114,21 @@ void loop() {
   sTotal = sTotal + sReadings[sReadIndex];
   sReadIndex = sReadIndex + 1;
 
-  // if we're at the end of the array...
-  if (bReadIndex >= bNumReadings) {
-    bReadIndex = 0;}
+  
   if (sReadIndex >= sNumReadings) {
     sReadIndex = 0;}
 
-  // calculate the average:
-  bAverage = bTotal / bNumReadings;
   sAverage = sTotal / sNumReadings;
 
-  if (bAverage >= buttonThreshold) {buttonState = true;}
-  if (bAverage < buttonThreshold) {buttonState = false;}
+
 
   sAverage = constrain(sAverage,sliderMin,sliderMax); 
   brightness = map(sAverage, sliderMin, sliderMax, 0, 100);
   float brightnessF = float(brightness/100.0);
 
-  /*
+
+
+  /* do not print while deployed
   Serial.print("- M4Packet : ");
   Serial.print('\t');
   Serial.print("- B: ");
@@ -155,9 +210,11 @@ void loop() {
         
         num_payload_chars = MSG_LEN + 1;
       } else {
-        //Serial.print("dropper");
-        //Serial.print(MSG_LEN);
-        //Serial.println(incomingByte);
+        /*//for debugging
+        Serial.print("dropper");
+        Serial.print(MSG_LEN);
+        Serial.println(incomingByte);
+        */
         num_payload_chars = MSG_LEN + 1;  // invalid packet, drop data
         
       }
