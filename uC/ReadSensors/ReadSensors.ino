@@ -21,6 +21,25 @@ Adafruit_VEML7700 veml = Adafruit_VEML7700();
 
 VL53L0X sensor;
 
+/*add to a module*/
+int LightPin = A2;
+
+const int bNumReadings = 50;
+int bReadings[bNumReadings];      // the readings from the analog input
+int bReadIndex = 0;              // the index of the current reading
+int bTotal = 0;                  // the running total
+int bAverage = 0;                // the average
+int button = A1;
+int bRaw = 0;
+bool buttonState = false;
+int buttonThreshold = 200;
+int threshold = 500;
+
+void averageInit(){  // initialize all the readings to 0:
+  for (int bThisReading = 0; bThisReading < bNumReadings; bThisReading++) {
+    bReadings[bThisReading] = 0;}
+}
+/*add to a module*/
 
 // Uncomment this line to use long range mode. This
 // increases the sensitivity of the sensor and extends its
@@ -39,10 +58,12 @@ VL53L0X sensor;
 //#define HIGH_SPEED
 //#define HIGH_ACCURACY
 
-
 void setup()
 {
   Serial.begin(115200);
+
+  pinMode(LightPin, OUTPUT);
+  averageInit();
 
   if (!veml.begin()) {
     Serial.println("VEML Sensor not found");
@@ -100,28 +121,74 @@ void setup()
 #endif
 }
 
+const long stepSize = 500;
+unsigned long previousTime = 0; 
+const long stepSize2 = 800;
+unsigned long previousTime2 = 0;
+
 void loop()
 {
-  //Serial.print("- LeoPacket");
-  //Serial.print('\t');
-  Serial.print("Range: ");
-  Serial.println(sensor.readRangeSingleMillimeters());
-  //if (sensor.timeoutOccurred()) { Serial.print(" TIMEOUT"); }
-  Serial.print("Lux: "); Serial.println(veml.readLux());
-  Serial.print("White: "); Serial.println(veml.readWhite());
-  Serial.print("Raw ALS: "); Serial.println(veml.readALS());
 
-  /*
-  uint16_t irq = veml.interruptStatus();
-  if (irq & VEML7700_INTERRUPT_LOW) {
-    Serial.println("** Low threshold"); 
-  }
-  if (irq & VEML7700_INTERRUPT_HIGH) {
-    Serial.println("** High threshold"); 
-  }
+  unsigned long currentTime = millis();
 
-  Serial.println();
-  */
+  bTotal = bTotal - bReadings[bReadIndex];
+  bRaw = analogRead(button);
+  bReadings[bReadIndex] = bRaw;
+  bTotal = bTotal + bReadings[bReadIndex];
+  bReadIndex = bReadIndex + 1;
+
+  // if we're at the end of the array...
+  if (bReadIndex >= bNumReadings) {
+    bReadIndex = 0;}
+
+  // calculate the average:
+  bAverage = bTotal / bNumReadings;
+
+  if (bAverage >= buttonThreshold) {buttonState = true;}
+  if (bAverage < buttonThreshold) {buttonState = false;}
+
+  //if(currentTime - previousTime2 >= stepSize2) {
+
+    
+       
+  //  previousTime2 = millis();
+  //}
   
-  delay(500);
+  if(currentTime - previousTime >= stepSize) {
+
+    
+    
+    //Serial.print("- LeoPacket");
+    //Serial.print('\t');
+    Serial.print("Button: ");
+    Serial.println(bRaw);
+    Serial.print("Range: ");
+    Serial.println(sensor.readRangeSingleMillimeters());
+    //if (sensor.timeoutOccurred()) { Serial.print(" TIMEOUT"); }
+    Serial.print("Lux: "); Serial.println(veml.readLux());
+    Serial.print("White: "); Serial.println(veml.readWhite());
+    Serial.print("Raw ALS: "); Serial.println(veml.readALS());
+
+    if (bRaw < threshold){
+      digitalWrite(LightPin, LOW);
+    }
+
+    if (bRaw >= threshold){
+      digitalWrite(LightPin, HIGH);
+    }
+  
+    /*
+    uint16_t irq = veml.interruptStatus();
+    if (irq & VEML7700_INTERRUPT_LOW) {
+      Serial.println("** Low threshold"); 
+    }
+    if (irq & VEML7700_INTERRUPT_HIGH) {
+      Serial.println("** High threshold"); 
+    }
+  
+    Serial.println();
+    */
+    previousTime = millis();
+  }
+  //delay(500);
 }

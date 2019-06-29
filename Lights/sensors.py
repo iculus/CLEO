@@ -10,6 +10,7 @@ def sensors(senseThread, timeoutCounter):
 	lux = 0
 	white = 0
 	als = 0
+	button = 0
 	reading = False
 	distanceMin = 10
 	distanceMax = 1200
@@ -25,11 +26,11 @@ def sensors(senseThread, timeoutCounter):
 			header, message = str(senseThread).replace('\r', '').replace(' ','').split(':')
 			#print(header, message)
 			try:
-				ranger, lux, white, als = message.split(',') 
+				ranger, lux, white, als, button = message.split(',') 
 			except: pass
 		except: pass
 
-		#print ranger, lux, white, als
+		#print ranger, lux, white, als, button
 		#topic, ranger = str(senseThread).replace(" ", "").split(":")
 	
 	#map ranger to steps
@@ -59,4 +60,4 @@ def sensors(senseThread, timeoutCounter):
 			timeoutCounter = 0
 			personNearby = False
 	#if reading == True:
-	return reading, personNearby, ranger, d, timeoutCounter
+	return reading, personNearby, ranger, d, timeoutCounter, button

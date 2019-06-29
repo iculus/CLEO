@@ -43,6 +43,7 @@ if __name__ == "__main__":
 	fingers = False
 	justSawFingers = False
 	toc = 0
+	button = 0
 
 	#for the send
 	bright = 0
@@ -68,12 +69,15 @@ if __name__ == "__main__":
 		if time.time()-currentTime > 0.0015:
 			print "fingers slow", time.time() - currentTime
 
-		reading, personNearby, ranger, d, toc = sensors(senseThread, toc)
+		reading, personNearby, ranger, d, toc, button = sensors(senseThread, toc)
 		if time.time()-currentTime > 0.002:
 			print "sensors slow", time.time() - currentTime
 
 		
 		'''sensors demo/person switch'''
+
+		#print button
+ 
 		if reading and personNearby: 
 			person = True
 			demo = False
