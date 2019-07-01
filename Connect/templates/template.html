@@ -33,6 +33,23 @@
         <input type="submit" value="Connect"></input>
         </p>
       </form>
+      <p>Temperatures:</p>
+      <ul>
+        {% for t in temperatures %}
+        <li>{{t}}</li>
+        {% endfor %}
+      </ul>
+<!-- -->
+      <p>Services:</p>
+      <ul>
+        <li>sensors : {{ sensor_bool }}</li>
+        <li>lights : {{ lights_bool }}</li>
+        <li>ngrok : {{ ngrok_bool }}</li>
+        <li>ngrokweb : {{ ngrokweb_bool }}</li>
+        <li>leap : {{ leap_bool }}</li>
+      </ul>
+
+
     </div>
     <!--<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>-->

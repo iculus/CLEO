@@ -51,6 +51,11 @@ void setup() {
   averageInit();
 
   pinMode(ledPin, OUTPUT);
+  
+  pinMode(R1, OUTPUT);
+  pinMode(R2, OUTPUT);
+  pinMode(R3, OUTPUT);
+  pinMode(R4, OUTPUT);
 }
 
 
@@ -65,7 +70,7 @@ int timeFilter = 50; //was 30
 
 void loop() {
 
-  //timer script for testing
+  /*//timer script for testing
   unsigned long currentMillis = millis();
 
   if (currentMillis - previousMillis >= interval) {
@@ -81,12 +86,12 @@ void loop() {
       onePix.setPixelColor(0, 100, 0, 100);
     }
 
-    Serial.println(ledState);
+    //Serial.println(ledState);
 
     // set the LED with the ledState of the variable:
     digitalWrite(ledPin, ledState);
     onePix.show();
-  }
+  }*/
   
 
   //record sensors
@@ -170,6 +175,7 @@ void loop() {
     timer = millis();
   }
 
+
   if (serAvail == false and wasTrue == true) {
     //just switched 
     //if time has elapse set condition to false
@@ -183,7 +189,7 @@ void loop() {
     condition = false;
   }
 
-  digitalWrite(LED_BUILTIN, serAvail);
+  //digitalWrite(LED_BUILTIN, serAvail);
 
   // send data only when you receive data:
   if (condition) {
@@ -251,6 +257,10 @@ void handleMessage(struct Message1 msg1, float brightF){
 
   uint8_t numFing = msg1.bit242;
   uint8_t brights = msg1.bit243;
+  uint8_t R1state = msg1.bit244;
+  uint8_t R2state = msg1.bit245;
+  uint8_t R3state = msg1.bit246;
+  uint8_t R4state = msg1.bit247;
   
   int seq[] = {  msg1.bit0,  msg1.bit1,  msg1.bit2,  msg1.bit3,  msg1.bit4,  msg1.bit5,  msg1.bit6,  msg1.bit7,  msg1.bit8,  msg1.bit9,  msg1.bit10, msg1.bit11, msg1.bit12, msg1.bit13, msg1.bit14, msg1.bit15, msg1.bit16, msg1.bit17, msg1.bit18, msg1.bit19, msg1.bit20, msg1.bit21,
       msg1.bit22, msg1.bit23, msg1.bit24, msg1.bit25, msg1.bit26, msg1.bit27, msg1.bit28, msg1.bit29, msg1.bit30, msg1.bit31, msg1.bit32, msg1.bit33, msg1.bit34, msg1.bit35, msg1.bit36, msg1.bit37, msg1.bit38, msg1.bit39, msg1.bit40, msg1.bit41, msg1.bit42, msg1.bit43,
@@ -265,6 +275,51 @@ void handleMessage(struct Message1 msg1, float brightF){
       msg1.bit220,  msg1.bit221,  msg1.bit222,  msg1.bit223,  msg1.bit224,  msg1.bit225,  msg1.bit226,  msg1.bit227,  msg1.bit228,  msg1.bit229,  msg1.bit230,  msg1.bit231,  msg1.bit232,  msg1.bit233,  msg1.bit234,  msg1.bit235,  msg1.bit236,  msg1.bit237,  msg1.bit238,  msg1.bit239,  msg1.bit240,  msg1.bit241};
 
   DrawLines(seq, seqLen, brights*brightF, numFing); //onOff vals, len, color, brightness
+
+  //digitalWrite(R1, bool(R1state));
+  //digitalWrite(R2, bool(R2state));
+  //digitalWrite(R3, bool(R3state));
+  //digitalWrite(R4, bool(R4state));
+  if (R1state != 1 && R2state !=1 && R3state !=1 && R4state!=1){
+    onePix.setPixelColor(0, 100, 100, 100);
+    onePix.show(); 
+  }
+  
+  if (R1state == 1){
+    onePix.setPixelColor(0, 100, 0, 100);
+    onePix.show(); 
+    digitalWrite(R1, HIGH);
+  }
+  if (R1state != 1){
+    digitalWrite(R1, LOW);
+  }
+
+  if (R2state == 1){
+    onePix.setPixelColor(0, 0, 100, 100);
+    onePix.show(); 
+    digitalWrite(R2, HIGH);
+  }
+  if (R2state != 1){
+    digitalWrite(R2, LOW);
+  }
+
+  if (R3state == 1){
+    onePix.setPixelColor(0, 100, 100, 0);
+    onePix.show(); 
+    digitalWrite(R3, HIGH);
+  }
+  if (R3state != 1){
+    digitalWrite(R3, LOW);
+  }
+
+  if (R4state == 1){
+    onePix.setPixelColor(0, 0, 0, 100);
+    onePix.show(); 
+    digitalWrite(R4, HIGH);
+  }
+  if (R4state != 1){
+    digitalWrite(R4, LOW);
+  }
 
   //uncomment below to send the list to the serial terminal
   //for (int indx = 0; indx < (sizeof(seq)/sizeof(seq[0])); indx ++){

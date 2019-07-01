@@ -243,5 +243,9 @@ struct Message1 {
   uint8_t bit241;
   uint8_t bit242;
   uint8_t bit243;
+  uint8_t bit244;
+  uint8_t bit245;
+  uint8_t bit246;
+  uint8_t bit247;
 } __packed__;
 static const size_t MSG_LEN = sizeof(struct Message1);

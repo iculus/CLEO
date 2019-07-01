@@ -83,7 +83,7 @@ def getPort(device):
 			err = True
 	return port, err
 
-def sendIt(sim, numFings, ser, bright):
+def sendIt(sim, numFings, ser, bright, R1, R2, R3, R4):
 	toSend = sim.T
 	toSend = toSend.reshape(242)
 
@@ -93,8 +93,14 @@ def sendIt(sim, numFings, ser, bright):
 	#add the brightness to the end of the message
 	toSend = append(toSend,bright)
 
+	#add the relaystates end of the message
+	toSend = append(toSend,R1)
+	toSend = append(toSend,R2)
+	toSend = append(toSend,R3)
+	toSend = append(toSend,R4)
+
 	#build struct and send messa
-	message = start+struct.pack("<244B", *toSend)+end
+	message = start+struct.pack("<248B", *toSend)+end
 	ser.write(message)
 
 	#read incoming message

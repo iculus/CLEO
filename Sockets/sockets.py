@@ -38,6 +38,7 @@ def setupListenSocket(port = "5556" ,topicfilter = "0000"):
 def startThreads(socket, thread):
 	lThread = thread
 	lThread.socket = socket
+	lThread.daemon = True
 	lThread.start()
 	return lThread
 	
