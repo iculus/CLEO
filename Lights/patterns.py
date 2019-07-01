@@ -1,8 +1,8 @@
-from numpy import interp, zeros, chararray, reshape, append, array, roll, where, fliplr, add, vstack, full, delete
+from numpy import interp, zeros, chararray, reshape, append, array, roll, where, fliplr, add, vstack, full, delete,flipud
 
 def heart(color):
 	x = color
-	return array([	[0,0,0,0,0,0,0,0,0,0,0],
+	h = array([	[0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0],
@@ -24,6 +24,8 @@ def heart(color):
 			[0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0],
 			[0,0,0,0,0,0,0,0,0,0,0]	])
+	h=flipud(h)
+	return h
 
 def dot(xPos, yPos, Color):
 	setArray = array([	[0,0,0,0,0,0,0,0,0,0,0],
