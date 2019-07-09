@@ -7,13 +7,13 @@ sys.path.insert(0,'/home/admin/CLEO/Installer/')
 sys.path.insert(0,'/home/admin/CLEO/Connect/')
 sys.path.insert(0,'/home/admin/CLEO/Utilities/')
 
-from installer import getSetup
+from install import *
 from subprocess import Popen, PIPE, call
 from ssid import *
 from connectionManager import *
 from readTemps import getTemps
 
-#name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
+name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
 
 path = '/home/admin/CLEO/'
 
@@ -56,7 +56,6 @@ def signup():
 
 
 	#password
-	password = 'crystalz'
 	cmd = 'echo '+ password +' | sudo -S python /home/admin/CLEO/Connect/connectionManager.py -u ' + str(wifi) + " -p " + str(pw)
 
 	print cmd
