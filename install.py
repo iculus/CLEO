@@ -1,26 +1,33 @@
 # install system
 import os, stat
 
-data = ""
-try:
-	with open('/home/admin/setup.CLEO') as theFile:
-		data = theFile.readlines()
-except: pass
+def getSetup():
+	data = ""
+	try:
+		with open('/home/admin/setup.CLEO') as theFile:
+			data = theFile.readlines()
+	except: pass
 
-name=number=ngrokhttp=ngroktcp=password=ip=wifipassword=""
+	name=number=ngrokhttp=ngroktcp=password=ip=wifipassword=""
 
-for i in data:
-	typ, val = i.split("=")
-	val = val.strip('\n')
-	print typ, val
-	if "name" in typ: name = val
-	if "number" in typ: number = val
-	if "http" in typ: ngrokhttp = val
-	if "tcp" in typ: ngroktcp = val
-	if "password" in typ and "wifi" not in typ: password = val
-	if "ip" in typ: ip = val
-	if "wifi" in typ: wifipassword = val
+	for i in data:
+		typ, val = i.split("=")
+		val = val.strip('\n')
+		print typ, val
+		if "name" in typ: name = val
+		if "number" in typ: number = val
+		if "http" in typ: ngrokhttp = val
+		if "tcp" in typ: ngroktcp = val
+		if "password" in typ and "wifi" not in typ: password = val
+		if "ip" in typ: ip = val
+		if "wifi" in typ: wifipassword = val
 
+	return name, number, ngrokhttp, ngroktcp, password, ip, wifipassword
+
+
+name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
+
+print "\n-"+password+"-\n"
 
 number = raw_input("Please enter CLEO number ["+number+"]: ") or number
 name = "CLEO "+ number

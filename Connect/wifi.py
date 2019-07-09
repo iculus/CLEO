@@ -4,10 +4,14 @@
 import sys, subprocess
 sys.path.insert(0,'/home/admin/CLEO/Connect/')
 sys.path.insert(0,'/home/admin/CLEO/Utilities')
+sys.path.insert(0,'/home/admin/CLEO')
 from subprocess import Popen, PIPE, call
 from ssid import *
 from connectionManager import *
 from readTemps import getTemps
+from install import *
+
+name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
 
 path = '/home/admin/CLEO/'
 
@@ -48,8 +52,9 @@ def signup():
 	pw = request.form['pw']
 	wifi = request.form['wifi']
 
+
 	#password
-	cmd = 'echo crystalz | sudo -S python /home/admin/CLEO/Connect/connectionManager.py -u ' + str(wifi) + " -p " + str(pw)
+	cmd = 'echo '+password+' | sudo -S python /home/admin/CLEO/Connect/connectionManager.py -u ' + str(wifi) + " -p " + str(pw)
 
 	print cmd
 
