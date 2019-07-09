@@ -8,8 +8,6 @@ def do_it2():
 	worked = False
 	killProcess('leapd')
 
-	#password
-	#sudo_password = 'crystalz'
 	command = 'leapd'.split()
 
 	p = Popen(['gnome-terminal', '-x', 'sudo', '-S'] + command, stdin=PIPE, stderr=PIPE,universal_newlines=True, shell=False, preexec_fn=os.setpgrp)
