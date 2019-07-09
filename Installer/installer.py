@@ -27,8 +27,6 @@ def getSetup():
 
 name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
 
-print "\n-"+password+"-\n"
-
 number = raw_input("Please enter CLEO number ["+number+"]: ") or number
 name = "CLEO "+ number
 print "\n\twelcome: ", name, '\n'
