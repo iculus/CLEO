@@ -4,9 +4,8 @@
 import sys, subprocess
 
 sys.path.insert(0,'/home/admin/CLEO/Installer/')
-
-sys.path.insert(1,'/home/admin/CLEO/Connect/')
-sys.path.insert(2,'/home/admin/CLEO/Utilities/')
+sys.path.insert(0,'/home/admin/CLEO/Connect/')
+sys.path.insert(0,'/home/admin/CLEO/Utilities/')
 
 from installer import getSetup
 from subprocess import Popen, PIPE, call

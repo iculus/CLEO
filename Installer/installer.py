@@ -96,7 +96,3 @@ setPermissions(grokHTTP)
 
 os.rename(currentPath+'grok.sh', newPath+'grok.sh')
 os.rename(currentPath+'grokweb.sh', newPath+'grokweb.sh')
-
-
-
-
