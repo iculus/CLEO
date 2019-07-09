@@ -132,6 +132,10 @@ void loop() {
   float brightnessF = float(brightness/100.0);
 
 
+  //Enable for testing, remove before flight
+  //brightnessF = 1.0;
+  Serial.println(brightnessF);
+
 
   /* do not print while deployed
   Serial.print("- M4Packet : ");

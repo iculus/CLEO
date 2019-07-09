@@ -49,7 +49,7 @@ def signup():
 	wifi = request.form['wifi']
 
 	#password
-	cmd = 'echo crystalz | sudo -S python /home/admin/CLEO/Connect/connectionManager.py ' + str(wifi) + " " + str(pw)
+	cmd = 'echo crystalz | sudo -S python /home/admin/CLEO/Connect/connectionManager.py -u ' + str(wifi) + " -p " + str(pw)
 
 	print cmd
 
@@ -58,5 +58,8 @@ def signup():
 
 	return redirect('/')		
 
+app.debug = True
+
 if __name__ == '__main__':
+	#remove before flight
 	app.run()

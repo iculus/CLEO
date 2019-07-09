@@ -19,7 +19,7 @@ def visible():
 			#print("%s %s" % (prefix, ap.Ssid))
 			#print("%s" % (ap.Ssid))
 			returnNames.append(ap.Ssid)
-	return returnNames
+	return set(returnNames)
 
 connection_types = ['wireless','wwan','wimax']
 
@@ -56,6 +56,7 @@ def activate(names):
         NetworkManager.NetworkManager.Enable(True)
     for n in names:
         if n not in connections:
+            print (n, connections.keys())
             print("No such connection: %s" % n, sys.stderr)
             sys.exit(1)
 
@@ -130,41 +131,64 @@ def getActive():
 
 import numpy as np
 
+wifiname = "PeetaAdam WiFi"
+wifipw = "martyfarty"
+
+#wifiname = 'PeetaAdam House'
+#wifipw = 'cabin3244cattle!'
+
 if __name__ == "__main__":
-	print "TESTING \n\nVisible"
+	print "\nTESTING \n\nVisible"
 	returnNames = visible()
 	print '\n', returnNames
 	time.sleep(3)
+
 	print "\n\nKnown"	
 	returnConn, returnKnown = list_()
 	print '\n',returnConn,'\n',returnKnown
+
+	print "\n\nActives"
+	actives = getActive()
+	print '\n', actives
 
 	print "\n\nFound but not known\n\n"
 	notKnown = findNotKnown(returnNames,returnKnown)
 	print notKnown
 
 	print '\n\nKNOWN WIFI\n\n'
-	thisName = 'lupaupa'
+	thisName = wifiname
 	mustAdd, mustConnect , DNE = isThisWifiKnown(thisName,returnNames,returnKnown)
 	print thisName + "must be added     = ", mustAdd
 	print thisName + "must be connected = ", mustConnect
 	if DNE: print thisName + " Does Not Exist"
 	if not DNE: print thisName + " Exists"
-
+	
+	'''
 	print "\n\n\nDEACTIVATE\n"
-	deactivate(["Mars"])
+	deactivate([wifiname])
 	time.sleep(3)
 	list_()
+
+	'''
+
+	'''
+
+	print "\n\nUNDELETE\n"
+	add(wifiname,wifipw)
+	time.sleep(3)
+	list_()
+
 	print "\n\n\nACTIVATE\n"
-	activate(["Mars"])
+	activate([wifiname])
 	time.sleep(3)
 	list_()
+	'''
+
+
+	'''
 	print "\n\nDELETE\n"
-	delete('Mars')
+	delete(wifiname)
 	time.sleep(5)
 	list_()
-	print "\n\nUNDELETE\n"
-	add('Mars','frozenbread')
-	time.sleep(3)
-	list_()
+	'''
 
