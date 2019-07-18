@@ -1,5 +1,6 @@
 import zmq
 import threading
+import time
 
 class listenThread(threading.Thread):
 
@@ -17,10 +18,13 @@ class listenThread(threading.Thread):
 		while not self._stopevent.isSet(  ):
 			string = self.socket.recv()
 			self.messagedata = string
+			#remove beflore flight
+			#time.sleep(0.01)
+			#print "hello"
 
-	def join(self, timeout=None):
+	def join(self, timeout=None, title="NONE"):
 		""" Stop the thread. """
-		print "exiting"
+		print "\nexiting " + title
 		self._stopevent.set(  )
 		threading.Thread.join(self, timeout)
 

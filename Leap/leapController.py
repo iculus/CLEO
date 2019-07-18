@@ -110,7 +110,6 @@ class SampleListener(Leap.Listener):
 	def on_service_connect(self, controller):
 		print "Connection Gained"
 		
-	
 	def on_frame(self, controller):
 
 		frame = controller.frame() 
@@ -140,7 +139,8 @@ class SampleListener(Leap.Listener):
 		#send message here on ZM0
 		topic = 10001
 		messagedata = ":" + str(allFings) + ":" + str(numFing)
-		fingerSocket.send("%d %s" % (topic, messagedata))		
+		fingerSocket.send("%d %s" % (topic, messagedata))	
+			
 
 def main():
 	#set up socket for sending on ZM0
@@ -160,7 +160,8 @@ def main():
 
 	# Keep this process running until Enter is pressed
 	while True: 
-		pass
+		time.sleep(0.01)
+		#pass
 
 if __name__ == "__main__":
 	killProcess("leapd")

@@ -123,12 +123,12 @@ for loop, value in enumerate(bauds):
 		if fade:
 			step = 0.5
 			if bright == 0: sign = 1; justSawFingers = False; #count = count+12; 
-			timeFromFeather = sendIt(sendSim, fingerNum, LEDSerial,bright/60)
+			timeFromFeather = sendIt(sendSim, fingerNum, LEDSerial,bright/60,0,0,0,0)
 			bright = bright+(step*sign)
 			if bright >= 255-step+1:
 				sign = -1
 		if not fade:
-			timeFromFeather = sendIt(sendSim, fingerNum, LEDSerial,bright/60)
+			timeFromFeather = sendIt(sendSim, fingerNum, LEDSerial,bright/60,0,0,0,0)
 
 		'''testing for dropped messages'''
 		okay, totalDrops, maxDropsList, errorDrop, dSTime, timeDiff, tList = checkDrops(

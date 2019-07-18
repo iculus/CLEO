@@ -1,16 +1,12 @@
-
 /*
 Code by Mike Soroka 06/2019
 Reads Button and Slider
 Reads struct from python
 Writes slider and struct (num fings, pattern) to LEDs
-
 Written to M4
-
 Button : filtered, working
 Slider : filtered, constrained, mapped, working
 Lights : Colors work, quirk with num fings 
-
 Button moved to leonardo
 */
 
@@ -72,11 +68,9 @@ void loop() {
 
   /*//timer script for testing
   unsigned long currentMillis = millis();
-
   if (currentMillis - previousMillis >= interval) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
-
     // if the LED is off turn it on and vice-versa:
     if (ledState == LOW) {
       ledState = HIGH;
@@ -85,9 +79,7 @@ void loop() {
       ledState = LOW;
       onePix.setPixelColor(0, 100, 0, 100);
     }
-
     //Serial.println(ledState);
-
     // set the LED with the ledState of the variable:
     digitalWrite(ledPin, ledState);
     onePix.show();
@@ -101,14 +93,11 @@ void loop() {
   bReadings[bReadIndex] = bRaw;
   bTotal = bTotal + bReadings[bReadIndex];
   bReadIndex = bReadIndex + 1;
-
   // if we're at the end of the array...
   if (bReadIndex >= bNumReadings) {
     bReadIndex = 0;}
-
   // calculate the average:
   bAverage = bTotal / bNumReadings;
-
   if (bAverage >= buttonThreshold) {buttonState = true;}
   if (bAverage < buttonThreshold) {buttonState = false;}
   */
@@ -131,10 +120,6 @@ void loop() {
   brightness = map(sAverage, sliderMin, sliderMax, 0, 100);
   float brightnessF = float(brightness/100.0);
 
-
-  //Enable for testing, remove before flight
-  //brightnessF = 1.0;
-  Serial.println(brightnessF);
 
 
   /* do not print while deployed

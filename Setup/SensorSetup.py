@@ -105,10 +105,13 @@ def sendIt(sim, numFings, ser, bright, R1, R2, R3, R4):
 
 	#read incoming message
 	inp = ser.readline()
-    	vals = str(inp.decode("utf-8")).split(',')
-	return vals
+    	vals = str(inp.decode("utf-8")).split(',')	
 	#print(vals)
-    	#sleep(1./120)
+	#remove before flight
+    	time.sleep(1./100)
+	#print vals
+	#print toSend
+	return vals
 
 def setupSerial(TYPE, br=115200, to = 0):
 	FeatherPort,FPErr = getPort(TYPE)

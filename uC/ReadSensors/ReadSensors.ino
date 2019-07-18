@@ -23,6 +23,7 @@ VL53L0X sensor;
 
 /*add to a module*/
 int LightPin = A2;
+int FanPin = 9; 
 
 const int bNumReadings = 50;
 int bReadings[bNumReadings];      // the readings from the analog input
@@ -63,6 +64,7 @@ void setup()
   Serial.begin(115200);
 
   pinMode(LightPin, OUTPUT);
+  pinMode(FanPin, OUTPUT);
   averageInit();
 
   if (!veml.begin()) {
@@ -169,12 +171,16 @@ void loop()
     Serial.print("White: "); Serial.println(veml.readWhite());
     Serial.print("Raw ALS: "); Serial.println(veml.readALS());
 
+    digitalWrite(FanPin, HIGH);
+
     if (bRaw < threshold){
       digitalWrite(LightPin, LOW);
+      //digitalWrite(FanPin, LOW);
     }
 
     if (bRaw >= threshold){
       digitalWrite(LightPin, HIGH);
+      //digitalWrite(FanPin, HIGH);
     }
   
     /*

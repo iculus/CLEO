@@ -8,6 +8,7 @@ sys.path.insert(0,'/home/admin/CLEO/Leap/')
 sys.path.insert(0,'/home/admin/CLEO/Setup/')
 sys.path.insert(0,'/home/admin/CLEO/Sockets/')
 sys.path.insert(1,'/usr/lib/python2.7')
+sys.path.insert(0,'/home/admin/CLEO/Utilities/')
 import subprocess
 
 from setup import *
@@ -18,10 +19,11 @@ from sockets import *
 from fingers import *
 from sensors import *
 from patterns import *
+from readTemps import getTemps
 
 if __name__ == "__main__":
 	set_procname("crystalz-lights")
-	ser = setupSerial(LEDComputer, 500000, 0)
+	ser = setupSerial(LEDComputer, 250000, 0)
 
 	#pusubsetup
 	fingerPort = "5556"
@@ -54,7 +56,7 @@ if __name__ == "__main__":
 	#modes
 	selector = 0
 	oneMode = False
-	thisMode = 0
+	thisMode = 2
 	modeDelay = 1200
 	maxMode = 20
 	mode = thisMode
@@ -110,10 +112,16 @@ if __name__ == "__main__":
 	yV1 = 11
 	c1 = 15
 
+	endTime = currentTime = writeTime = time.time()
+	writeDelay = 10
+
+	dataWrite = []
+	Logging = False
+
 	try:
 		while True:
-			#update
-			currentTime = time.time()
+
+			temps = getTemps()
 
 			fingerNum, fingerPos, fingerUpdate, fingers = getFings(fingerThread, fingers)
 			#if time.time()-currentTime > 0.0015:
@@ -122,6 +130,9 @@ if __name__ == "__main__":
 			reading, personNearby, ranger, d, toc, button = sensors(senseThread, toc)
 			#if time.time()-currentTime > 0.002:
 				#print "sensors slow", time.time() - currentTime
+
+			#fingerNum = 5
+			#reading = personNearby = fingerUpdate = False
 
 		
 			'''sensors demo/person switch'''
@@ -159,9 +170,10 @@ if __name__ == "__main__":
 			#print demo, person, fingers
 			#demo = True
 
-			'''
+			
 			denom = ((time.time()-startTime)/100)+1
 
+			'''
 			print demo, demoEvents, demoEvents/denom
 			print fingers, justSawFingers, fingerEvents, fingerEvents/denom
 			print person, peopleEvents, peopleEvents/denom
@@ -196,6 +208,15 @@ if __name__ == "__main__":
 			if angry: modes = favList+agro+alien+water
 			if bored: modes = water+alien
 		
+			time.sleep(0.01)
+			duration = endTime-currentTime
+			#remove before flight
+			#if duration > 0.03:
+			#	print "hi", duration 
+
+			#update
+			currentTime = time.time()
+
 			#update mode
 			modeDelay = 20
 			if (currentTime - lastTimeMode) > modeDelay:
@@ -237,14 +258,15 @@ if __name__ == "__main__":
 					fade = True
 					sendSim = dot(0,0,0)
 
-					if d >= 3 and d > 0:
+					if d >= 1 and d > 0:
 						xVal = [5]
 						yVal = [11]
 						color = 15
 						thisMatrix = diags(xVal, yVal,color, sendSim)
 						sendSim = where(sendSim != 0, sendSim, thisMatrix)
+						#maybe add a twinkle perimeter here
 				
-					if d >= 3 and d > 0:
+					if d >= 2 and d > 0:
 						xVal = [4,6]
 						yVal = [10,12]
 						color = 25
@@ -553,6 +575,25 @@ if __name__ == "__main__":
 						justSawFingers = False
 						fingers = False
 
+
+			#append/print
+			dataSet = ["\n\n", "diagnostics", '\n',					\
+				time.time(), '\n', sendSim, '\n', fingerNum, '\n', ser,	\
+				'\n', bright, '\n',					\
+				R1, R2, R3, R4,	'\n',					\
+				fingerNum, fingerPos, fingerUpdate, fingers, 		\
+				reading, personNearby, ranger, d, toc, button, 		\
+				demo, demoEvents, demoEvents/denom,			\
+				justSawFingers, fingerEvents, fingerEvents/denom, 	\
+				person, peopleEvents, peopleEvents/denom, denom, temps]
+			#for i in dataSet:
+			#	print i
+
+			dataWrite.append(dataSet)
+
+			#subprocess.call("clear", shell=True)
+			#print dataSet[5], '\n', dataSet[11]
+
 			#show
 			if fade:
 				step = 0.5
@@ -568,8 +609,21 @@ if __name__ == "__main__":
 
 			if not fade:
 				sendIt(sendSim, fingerNum, ser, 255, R1, R2, R3, R4)
+
+			#write to disk here			
+			if (currentTime - writeTime) > writeDelay:
+				writeTime = currentTime
+				#for i in dataWrite:
+				#	print i
+				#print len(dataWrite)
+				#write to a file here
+				if Logging:
+					with open('/home/admin/CLEO/LOGS/light.log', 'a') as writeFile:
+						writeFile.write(str(dataWrite))
+				dataWrite = []
+			endTime = time.time()
 	except (KeyboardInterrupt, SystemExit):
 
 		#end threads
-		fingerThread.join(0)
-		senseThread.join(0)
+		fingerThread.join(0,"finger")
+		senseThread.join(0, "sense")
