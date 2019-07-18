@@ -237,14 +237,14 @@ if __name__ == "__main__":
 					fade = True
 					sendSim = dot(0,0,0)
 
-					if d >= 3 and d > 0:
+					if d >= 1 and d > 0:
 						xVal = [5]
 						yVal = [11]
 						color = 15
 						thisMatrix = diags(xVal, yVal,color, sendSim)
 						sendSim = where(sendSim != 0, sendSim, thisMatrix)
 				
-					if d >= 3 and d > 0:
+					if d >= 2 and d > 0:
 						xVal = [4,6]
 						yVal = [10,12]
 						color = 25
