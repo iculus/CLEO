@@ -197,7 +197,7 @@ if __name__ == "__main__":
 			if bored: modes = water+alien
 		
 			#update mode
-			modeDelay = 20
+			modeDelay = 60*3
 			if (currentTime - lastTimeMode) > modeDelay:
 				if oneMode: mode = thisMode;
 				if not oneMode: mode += 1;
