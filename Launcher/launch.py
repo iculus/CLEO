@@ -75,6 +75,8 @@ while True:
 		print "ngrok web : ", ngrokweb, "-",  ngrokwebLaunches
 		print '\n'
 
+		ngrok = ngrokweb = True
+
 
 		if not ngrok: 
 			print "launching : NGROK"

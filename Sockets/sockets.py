@@ -3,10 +3,10 @@ import threading
 
 class listenThread(threading.Thread):
 
-	def __init__(self, name='listenThread'):
+	def __init__(self, name='listenThread', group='thread', target='target'):
 		""" constructor, setting initial variables """
 		self._stopevent = threading.Event(  )
-		self._sleepperiod = 1.0
+		self._sleepperiod = 0.1
 		self.topic = "NONE"
 		self.messagedata = "NONE"
 		self.socket = 0
@@ -20,7 +20,7 @@ class listenThread(threading.Thread):
 
 	def join(self, timeout=None):
 		""" Stop the thread. """
-		print "exiting"
+		print "exiting", self.name
 		self._stopevent.set(  )
 		threading.Thread.join(self, timeout)
 

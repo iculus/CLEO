@@ -40,7 +40,7 @@ Adafruit_NeoPixel onePix(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
   
-  Serial.begin(115200);    // opens serial port, sets data rate to 9600 bps
+  Serial.begin(9600);    // opens serial port, sets data rate to 9600 bps
   
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -64,7 +64,7 @@ bool wasTrue = false;
 bool condition = false;
 int timer = millis();
 // this number will make akward pauses, keep it as low as possible
-int timeFilter = 50; //was 30
+int timeFilter = 300; //was 30
 
 
 
@@ -182,6 +182,9 @@ void loop() {
     if (millis() - timer > timeFilter){
       condition = false;
       wasTrue = false; 
+
+      
+      
     }
   }
 
@@ -192,42 +195,62 @@ void loop() {
   //digitalWrite(LED_BUILTIN, serAvail);
 
   // send data only when you receive data:
-  if (condition) {
-    incomingByte = Serial.read();
-    // accumilate enough bytes
-    // look for start bytes
-    // 
-    // pull out the payload
+  if (Serial.available()) {
+    while(Serial.available()){
+      incomingByte = Serial.read();
+      // accumilate enough bytes
+      // look for start bytes
+      // 
+      // pull out the payload
+    
+      if (num_payload_chars == MSG_LEN + 1) {
+        if (incomingByte == 255) {
+          num_payload_chars = 0;
+        }
+      } else if (num_payload_chars < MSG_LEN) {
+        payload[num_payload_chars] = incomingByte;
+        num_payload_chars++;
+      } else if (num_payload_chars == MSG_LEN) {
+        if (incomingByte == 254) {
+          //Serial.println("okay");
+          //process message
+          memcpy(&msg1, payload, sizeof(msg1));
+          
+          handleMessage(msg1, brightnessF);
   
-    if (num_payload_chars == MSG_LEN + 1) {
-      if (incomingByte == 255) {
-        num_payload_chars = 0;
+          Serial.print("okay ");
+          Serial.print(MSG_LEN);
+          Serial.print('-');
+          //Serial.println(incomingByte);
+          for(int i = 0; i <= MSG_LEN; i++){
+            Serial.print(payload[i]);
+            Serial.print('-');
+          }
+          Serial.println();
+          
+          num_payload_chars = MSG_LEN + 1;
+        } else {
+          ///*
+          //for debugging
+          Serial.print("dropper ");
+          Serial.print(MSG_LEN);
+          Serial.print('-');
+          //Serial.println(incomingByte);
+          for(int i = 0; i <= MSG_LEN; i++){
+            Serial.print(payload[i]);
+            Serial.print('-');
+          }
+          Serial.println();
+          //*/
+          num_payload_chars = MSG_LEN + 1;  // invalid packet, drop data
+          //num_payload_chars = 0;
+          //incomingByte = 255;
+        }
       }
-    } else if (num_payload_chars < MSG_LEN) {
-      payload[num_payload_chars] = incomingByte;
-      num_payload_chars++;
-    } else if (num_payload_chars == MSG_LEN) {
-      if (incomingByte == 254) {
-        //Serial.println("okay");
-        //process message
-        memcpy(&msg1, payload, sizeof(msg1));
-        
-        handleMessage(msg1, brightnessF);
-        
-        num_payload_chars = MSG_LEN + 1;
-      } else {
-        /*//for debugging
-        Serial.print("dropper");
-        Serial.print(MSG_LEN);
-        Serial.println(incomingByte);
-        */
-        num_payload_chars = MSG_LEN + 1;  // invalid packet, drop data
-        
-      }
-    } else {
-      //Serial.println("strange spot");
+    }/*else {
+      Serial.println("strange spot");
       //assert(false);
-    }    
+    } */  
   }
   else if(not condition) {
     checkTime = millis();
@@ -251,6 +274,7 @@ void loop() {
       if (b > 100){ b = 0; }
     }
   }
+  
 }
 
 void handleMessage(struct Message1 msg1, float brightF){

@@ -6,7 +6,7 @@ sys.path.insert(0,'/home/admin/CLEO/Setup/')
 
 from setup import *
 import serial, struct, sys
-from numpy import interp, zeros, chararray, reshape, append, array, roll
+from numpy import interp, zeros, chararray, reshape, append, array, roll, flipud
 import time
 
 start = chr(255)
@@ -84,6 +84,7 @@ def getPort(device):
 	return port, err
 
 def sendIt(sim, numFings, ser, bright, R1, R2, R3, R4):
+	sim = flipud(sim)
 	toSend = sim.T
 	toSend = toSend.reshape(242)
 
@@ -102,13 +103,18 @@ def sendIt(sim, numFings, ser, bright, R1, R2, R3, R4):
 	#build struct and send messa
 	message = start+struct.pack("<248B", *toSend)+end
 	ser.write(message)
+	#time.sleep(1./120)
 
 	#read incoming message
 	inp = ser.readline()
-    	vals = str(inp.decode("utf-8")).split(',')
+	
+    	try:vals = str(inp).split('-')
+	except: vals = "error"
+	#ser.flushInput()
+	#ser.flushOutput()	
 	return vals
 	#print(vals)
-    	#sleep(1./120)
+    	
 
 def setupSerial(TYPE, br=115200, to = 0):
 	FeatherPort,FPErr = getPort(TYPE)
@@ -116,7 +122,7 @@ def setupSerial(TYPE, br=115200, to = 0):
 	if FPErr: 
 		print "Port Error", TYPE, FPErr
 
-	serFeather = serial.Serial(port = str(FeatherPort.strip(' ')), baudrate = br, timeout = to)
+	serFeather = serial.Serial(port = str(FeatherPort.strip(' ')), baudrate = br, timeout = 0, xonxoff = True, rtscts = True, dsrdtr=True)
 
 	try:
 		if(serFeather.isOpen() != False):

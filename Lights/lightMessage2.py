@@ -1,13 +1,14 @@
 #!/usr/bin/python
 
-import os, signal, sys, inspect, thread, time, random, struct
-from numpy import interp, zeros, chararray, reshape, append, array, roll, fliplr, where, add, flipud
+import os, signal, sys, inspect, thread, time, random, struct, time
+from numpy import interp, zeros, chararray, reshape, append, array, roll, fliplr, where, add, flipud,rot90
 
 #sys.path.insert(0,'/home/admin/Desktop/cuttlefishLights/leapController/')
 sys.path.insert(0,'/home/admin/CLEO/Leap/')
 sys.path.insert(0,'/home/admin/CLEO/Setup/')
 sys.path.insert(0,'/home/admin/CLEO/Sockets/')
-sys.path.insert(1,'/usr/lib/python2.7')
+sys.path.insert(0,'/usr/lib/python2.7')
+sys.path.insert(0,'/home/admin/CLEO/Utilities/')
 import subprocess
 
 from setup import *
@@ -18,10 +19,37 @@ from sockets import *
 from fingers import *
 from sensors import *
 from patterns import *
+from readTemps import getTemps
+
+
+import threading 
+import time 
+  
+# Inherting the base class 'Thread' 
+class AsyncWrite(threading.Thread):  
+  
+    def __init__(self, text, out): 
+  
+        # calling superclass init 
+        threading.Thread.__init__(self)  
+        self.text = text 
+        self.out = out 
+  
+    def run(self): 
+  
+        f = open(self.out, "a") 
+        f.write(self.text + '\n') 
+        f.close() 
+  
+        # waiting for 2 seconds after writing 
+        # the file 
+        #time.sleep(2) 
+        print("Finished background file write to", self.out)
+    
 
 if __name__ == "__main__":
 	set_procname("crystalz-lights")
-	ser = setupSerial(LEDComputer, 500000, 0)
+	ser = setupSerial(LEDComputer, 115200, 0)
 
 	#pusubsetup
 	fingerPort = "5556"
@@ -30,10 +58,8 @@ if __name__ == "__main__":
 	senseSocket = setupListenSocket(sensePort,"10001")
 
 	#start threads
-	fingerThread = startThreads(fingerSocket, listenThread())
-	senseThread = startThreads(senseSocket, listenThread())
-	#fingerThread.daemon = False
-	#senseThread.daemon = False
+	fingerThread = startThreads(fingerSocket, listenThread(name="fings"))
+	senseThread = startThreads(senseSocket, listenThread(name="sense"))
 
 	#timers
 	startTime = currentTime = lastTimeDelay = lastTimeMode = decayTimeStart = time.time()
@@ -52,9 +78,9 @@ if __name__ == "__main__":
 	button = 0
 
 	#modes
-	selector = 0
+	selector = 2
 	oneMode = False
-	thisMode = 0
+	thisMode = 5
 	modeDelay = 1200
 	maxMode = 20
 	mode = thisMode
@@ -110,8 +136,22 @@ if __name__ == "__main__":
 	yV1 = 11
 	c1 = 15
 
+	endTime = currentTime = writeTime = time.time()
+	writeDelay = 1
+
+	dataWrite = []
+	Logging = False
+
+	fromArd = "NA"
+	source = "NA"
+
+
 	try:
 		while True:
+
+			#char = getch()
+			#temps = getTemps()
+
 			#update
 			currentTime = time.time()
 
@@ -159,9 +199,9 @@ if __name__ == "__main__":
 			#print demo, person, fingers
 			#demo = True
 
-			'''
+			
 			denom = ((time.time()-startTime)/100)+1
-
+			'''
 			print demo, demoEvents, demoEvents/denom
 			print fingers, justSawFingers, fingerEvents, fingerEvents/denom
 			print person, peopleEvents, peopleEvents/denom
@@ -197,7 +237,10 @@ if __name__ == "__main__":
 			if bored: modes = water+alien
 		
 			#update mode
-			modeDelay = 60*3
+
+			#if (char == "m"): mode = mode + 1
+		
+			modeDelay = 5*3
 			if (currentTime - lastTimeMode) > modeDelay:
 				if oneMode: mode = thisMode;
 				if not oneMode: mode += 1;
@@ -553,6 +596,28 @@ if __name__ == "__main__":
 						justSawFingers = False
 						fingers = False
 
+				
+					
+			#append/print
+			dataSet = ["\n\n", "diagnostics", '\n',					\
+				time.time(), '\n', sendSim, '\n', fingerNum, '\n', ser,	\
+				'\n', bright, '\n',					\
+				R1, R2, R3, R4,	'\n',					\
+				fingerNum, fingerPos, fingerUpdate, fingers, 		\
+				reading, personNearby, ranger, d, toc, button, 		\
+				demo, demoEvents, demoEvents/denom,			\
+				justSawFingers, fingerEvents, fingerEvents/denom, 	\
+				person, peopleEvents, peopleEvents/denom, denom]# , temps]
+			#for i in dataSet:
+			#	print i
+
+			dataWrite.append(dataSet)
+
+			#subprocess.call("clear", shell=True)
+			#print dataSet[5], '\n', dataSet[11]
+			
+
+
 			#show
 			if fade:
 				step = 0.5
@@ -564,10 +629,87 @@ if __name__ == "__main__":
 				bright = bright+(step*sign)
 				if bright >= 255-step+1:
 					sign = -1
-				sendIt(sendSim, fingerNum, ser, bright, R1, R2, R3, R4)
+				fromArd = sendIt(sendSim, fingerNum, ser, bright, R1, R2, R3, R4)
+				source = "    Fade"
 
 			if not fade:
-				sendIt(sendSim, fingerNum, ser, 255, R1, R2, R3, R4)
+				bright = 255
+				fromArd = sendIt(sendSim, fingerNum, ser, bright, R1, R2, R3, R4)
+				source = "Not Fade"
+
+			timeMath = time.time()-currentTime
+			timeThresh = 0.015
+			#print sendSim
+			#print bright, source, timeMath, fromArd, len(fromArd)
+			#if timeMath > timeThresh: print "********"
+			#if timeMath <= timeThresh: print ""
+
+			tft = []	
+			name = "*"	
+			fig = 0	
+			bri = 0
+			rel1 = 0
+			nd = 0
+			nd2 = 0
+
+			#print len(fromArd)
+
+			#try: 
+			for ndx,val in enumerate(fromArd):
+				if ndx == 0: name = val
+				if ndx >= 1 and ndx <= 242 and val != '\r\n': 
+					try: 
+						#print ndx, val, ord(val),
+						tft.append(ord(val))
+					except: pass #print ndx, "error", repr(val)
+				if ndx == 243: 
+					try: fig = ord(val)
+					except: fig = 'x'
+				if ndx == 244: 
+					try: bri = ord(val)
+					except: bri = 'x'
+				if ndx == 245: 
+					try: rel1 = ord(val)
+					except: rel1 = 'x'
+				if ndx == 246: 
+					try: rel2 = ord(val)
+					except: rel2 = 'x'
+				if ndx == 247: 
+					try: rel3 = ord(val)
+					except: rel3 = 'x'
+				if ndx == 248: 
+					try: rel4 = ord(val)
+					except: rel4 = 'x'
+				if ndx == 249: 
+					try: nd = ord(val)
+					except: nd = 'x'
+				if ndx == 250: 
+					try: nd2 = val
+					except: nd2 = 'x'
+				#if val == '\r\n': print ndx, 'good'
+
+			#print tft
+			#print len(tft)
+
+			#if len(tft) == 242: print rot90(reshape(tft,[11,22])),'\n', name, fig, bri, rel1, rel2, rel3, rel4, nd, repr(nd2)
+			#except: print "corruption error"
+			print '\n', mode, name
+			#for j in threading.enumerate():
+			#	print j.getName()
+
+		
+			
+			#write to disk here			
+			if (currentTime - writeTime) > writeDelay:
+				writeTime = currentTime
+				Logging = False
+				if Logging:
+					message = str(dataWrite)
+    					with open('/home/admin/CLEO/LOGS/light.log', 'a') as writeFile:
+						writeFile.write(str(dataWrite))
+				dataWrite = []
+			endTime = time.time()
+			
 	except (KeyboardInterrupt, SystemExit):
 
 		#end threads
