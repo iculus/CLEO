@@ -2,12 +2,18 @@
 #sudo service apache2 restart
 
 import sys, subprocess
+
+sys.path.insert(0,'/home/admin/CLEO/Installer/')
 sys.path.insert(0,'/home/admin/CLEO/Connect/')
-sys.path.insert(0,'/home/admin/CLEO/Utilities')
+sys.path.insert(0,'/home/admin/CLEO/Utilities/')
+
+from install import *
 from subprocess import Popen, PIPE, call
 from ssid import *
 from connectionManager import *
 from readTemps import getTemps
+
+name, number, ngrokhttp, ngroktcp, password, ip, wifipassword = getSetup()
 
 path = '/home/admin/CLEO/'
 
@@ -48,8 +54,9 @@ def signup():
 	pw = request.form['pw']
 	wifi = request.form['wifi']
 
+
 	#password
-	cmd = 'echo crystalz | sudo -S python /home/admin/CLEO/Connect/connectionManager.py ' + str(wifi) + " " + str(pw)
+	cmd = 'echo '+ password +' | sudo -S python /home/admin/CLEO/Connect/connectionManager.py -u ' + str(wifi) + " -p " + str(pw)
 
 	print cmd
 
@@ -58,5 +65,8 @@ def signup():
 
 	return redirect('/')		
 
+app.debug = True
+
 if __name__ == '__main__':
+	#remove before flight
 	app.run()
